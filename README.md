@@ -3,6 +3,7 @@
 
 ・最低限必要なもの
 - Python 3.6
+
 ・推奨するもの
 - PyCharm community edition(IDE)
 
