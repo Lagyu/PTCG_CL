@@ -10,7 +10,7 @@
 
 何も考えずに実装してるので、何か思ったことがあったらどんどんIssuesに書き込んでください。
 
-編集するとき：
+# 編集するとき
 まず、http://tracpath.com/bootcamp/learning_git_firststep.html を読んでバージョン管理について理解してください。
 
 
