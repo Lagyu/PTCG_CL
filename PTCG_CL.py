@@ -226,7 +226,7 @@ def parseenergy(object_name):
         if Energyarray[i]["subtype"] == "Basic":
             cardname = Energyarray[i]["name"]
             Type = re.sub(Regexp_pattern, "", cardname)
-            parsed_arr.append()
+            parsed_arr.append(Type)
         elif length_energy != len(parsed_arr):
             print("Unknown special energy has been attached.")
     return [length_energy, parsed_arr]
@@ -241,22 +241,3 @@ print(inspect.getsource(test1))
 test1()
 
 
-# print(BOARD_ELEM)
-
-
-# print(sets_card_pre)
-# set_card_json = sets_dic['cards'][i]['code']
-
-'''
-card_at_issue_from = BOARD_ELEM[BOARD_DIC.index("HAND_0")][0] #手札の一枚目、データ内容はJSONのそのカードの部分。
-card_at_issue_to = BOARD_ELEM[BOARD_DIC.index("BENCHP0_P_0")][0] #ベンチのポケモンのポケモンスペースの一枚目
-
-
-
-class PLAY(HAND_ID, BOARD_DIC_ID):
-    if HAND_ID_EXIST = False:
-        print('No such card in your hand.')
-    elif BOARD_DIC_ID not in BOARD_DIC:
-        print('No such element in BOARD_DIC')
-    elif HAND_ID
-'''
