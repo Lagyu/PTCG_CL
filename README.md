@@ -13,7 +13,7 @@
 # 開発に協力するとき
 まず、http://tracpath.com/bootcamp/learning_git_firststep.html を読んでバージョン管理について理解してください。
 
-初めて来た人は、Github DesktopからPullして自分のPCに共有リポジトリ(クラウド上にある元データ)の内容をダウンロードしてください。
+初めて来た人は、Github DesktopからgitをPullして自分のPCに共有リポジトリ(クラウド上にある元データ)の内容をダウンロードしてください。
 
 その後、PyCharmでgithubのディレクトリを開きます。
 
