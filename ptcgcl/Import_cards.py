@@ -62,7 +62,7 @@ def get_sets_from_web(regulation: str):
                 sets_from_sm1_list.append(sets_dict["sets"][i])
         # print(sets_from_sm1_list)
         sets_dict = {"sets": sets_from_sm1_list}
-    f = codecs.open("sets\u005C"+regulation+".json", "w", "utf-8")
+    f = codecs.open("sets\u005C"+regulation+".json", "w", "utf-8")  # setsフォルダにキャッシュを保存(フォルダ作成の必要あり)
     json.dump(sets_dict, f, sort_keys=True, indent=4)
     return sets_dict
 
