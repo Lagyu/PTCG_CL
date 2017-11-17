@@ -35,6 +35,7 @@ BOARD_DIC = [
 BOARD_ELEM = [[]] * len(BOARD_DIC)
 # BOARD_ELEM[BOARD_DIC.index("必要な箇所の名前")] = [] で、BOARD_ELEMの要素を取得できる。
 
+
 '''
 カードの例
         {
