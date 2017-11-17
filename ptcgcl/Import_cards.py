@@ -4,7 +4,7 @@ import datetime
 import re
 import urllib.request, urllib.parse
 import requests
-import numpy
+import os
 
 
 def get_sets_from_web(regulation: str):
@@ -14,7 +14,7 @@ def get_sets_from_web(regulation: str):
         }
         p = urllib.parse.urlencode(params)
         url = "https://api.pokemontcg.io/v1/sets/?" + p
-        print(url)
+        # print(url)
         r = requests.get(url)
         sets_str = r.text
         sets_dict = json.loads(sets_str)
@@ -25,7 +25,7 @@ def get_sets_from_web(regulation: str):
         }
         p = urllib.parse.urlencode(params)
         url = "https://api.pokemontcg.io/v1/sets/?" + p
-        print(url)
+        # print(url)
         r = requests.get(url)
         sets_str = r.text
         sets_dict = json.loads(sets_str)
@@ -47,7 +47,7 @@ def get_sets_from_web(regulation: str):
         }
         p = urllib.parse.urlencode(params)
         url = "https://api.pokemontcg.io/v1/sets/?" + p
-        print(url)
+        # print(url)
         r = requests.get(url)
         sets_str = r.text
         sets_dict = json.loads(sets_str)
@@ -62,16 +62,21 @@ def get_sets_from_web(regulation: str):
                 sets_from_sm1_list.append(sets_dict["sets"][i])
         # print(sets_from_sm1_list)
         sets_dict = {"sets": sets_from_sm1_list}
-    f = codecs.open("sets\u005C"+regulation+".json", "w", "utf-8")  # setsフォルダにキャッシュを保存(フォルダ作成の必要あり)
+    try:
+        f = codecs.open("sets\u005C"+regulation+".json", "w", "utf-8")  # setsフォルダにキャッシュを保存
+    except FileNotFoundError:
+        os.mkdir("sets")
+        f = codecs.open("sets\u005C" + regulation + ".json", "w", "utf-8")  # setsフォルダにキャッシュを保存
     json.dump(sets_dict, f, sort_keys=True, indent=4)
     return sets_dict
 
 
-def import_cards(regulation: str):
+def save_card_jsons(regulation: str):
     sets_dic = get_sets_from_web(regulation)
+    cards_all_list = []
     for i in range(len(sets_dic['sets'])):
         set_code = sets_dic['sets'][i]['code']
-        print("set_code=" + set_code)
+        # print("set_code=" + set_code)
         out_filename = set_code + ".json"
         params = {
             "setCode": set_code,
@@ -79,17 +84,50 @@ def import_cards(regulation: str):
         }
         p = urllib.parse.urlencode(params)
         url = "https://api.pokemontcg.io/v1/cards/?" + p
-        print(url)
+        # print(url)
         r = requests.get(url)
         cards_str = r.text
-        print(cards_str)
+        # print(cards_str)
         cards_dict = json.loads(cards_str)
-        f = codecs.open("cards\u005C"+out_filename, "w", "utf-8")
+        try:
+            f = codecs.open("cards\u005C"+out_filename, "w", "utf-8")  # cardsフォルダにキャッシュを保存
+        except FileNotFoundError:
+            os.mkdir("cards")
+            f = codecs.open("cards\u005C"+out_filename, "w", "utf-8")  # cardsフォルダにキャッシュを保存
+
         json.dump(cards_dict, f, sort_keys=True, indent=4)
+        # cards_all_list = cards_all_list + cards_dict["cards"]
+    '''
+    len_cards = len(cards_all_list)
+    print(str(len_cards) + " cards imported.")
+    cards_all_dict = {"cards": cards_all_list}
+    # print(cards_all_dict)
+    f = codecs.open("cards\u005CfromXY1all.json", "w", "utf-8")  # cardsフォルダにキャッシュを保存
+    json.dump(cards_all_dict, f, sort_keys=True)
+    '''
 
 
-import_cards("fromXY1")
+def import_all_cards(regulation: str):
+    cards_all_list = []
+    try:
+        sets_list = json.load(open('sets\u005C' + regulation + '.json', 'r'))["sets"]
+    except FileNotFoundError:
+        sets_list = get_sets_from_web(regulation)["sets"]
+        print("FileNotFoundError(sets)")
+
+    for i in range(len(sets_list)):
+        set_code_i = sets_list[i]["code"]
+        try:
+            set_cards_list = json.load(open('cards\u005C' + set_code_i + '.json', 'r'))["cards"]
+        except FileNotFoundError:
+            print("FileNotFoundError(cards)")
+            save_card_jsons(regulation)
+            set_cards_list = json.load(open('cards\u005C' + set_code_i + '.json', 'r'))["cards"]
+        cards_all_list = cards_all_list + set_cards_list
+    print(len(cards_all_list))
+    return cards_all_list
 
 
-def construct_cardlist():
-    print("test")
+
+
+

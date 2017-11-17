@@ -1,6 +1,8 @@
 import json
 import re
 from . import Board
+from . import Import_cards
+import random
 
 '''
 カードの例
@@ -81,9 +83,21 @@ def filldeck_x60(a_card_dict: dict):
         l =0
         Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")] = [] # デッキを空にする
         for l in range(60):
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].append(a_card_dict) # 引数のカードを60枚デッキに加える
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].append(a_card_dict)  # 引数のカードを60枚デッキに加える
 
-filldeck_x60(card_test)
+def filldeck_random_60(regulation):
+    all_card_list = Import_cards.import_all_cards(regulation)
+    len_all_card_list = len(all_card_list)
+    if all_card_list:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")] = [] # デッキを空にする
+        for i in range(60):
+            random_float = random.random() * float(len_all_card_list)
+            random_int = int(random_float)
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].append(all_card_list[random_int])  # 指定ルール内のカードをランダムに加える
+    print(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")])
+    print(str(len(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")]))+"枚")
+
+# filldeck_x60(card_test)
 
 Pokemon_From_HAND_To_Valid = [ "BATTLEPP_0", "BENCHP0_P_0", "BENCHP1_P_0", "BENCHP2_P_0", "BENCHP3_P_0", "BENCHP4_P_0", "BENCHP5_P_0", "BENCHP6_P_0", "BENCHP7_P_0" ]
 Tool_From_HAND_To_Valid = [ "BATTLEPA_0", "BENCHP0_A_0", "BENCHP1_A_0", "BENCHP2_A_0", "BENCHP3_A_0", "BENCHP4_A_0", "BENCHP5_A_0", "BENCHP6_A_0", "BENCHP7_A_0" ]

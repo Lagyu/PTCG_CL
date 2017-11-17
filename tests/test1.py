@@ -8,12 +8,15 @@ def test1():
 
 
 def test_import():
-    print(ptcgcl.Import_cards.get_sets_from_web("Standard"))
-    print(ptcgcl.Import_cards.get_sets_from_web("fromXY1"))
-    print(ptcgcl.Import_cards.get_sets_from_web("fromSM1"))
+    ptcgcl.Import_cards.import_all_cards("fromXY1")
+    ptcgcl.Import_cards.import_all_cards("Standard")
 
+def test_randomdeck():
+    ptcgcl.Check.filldeck_random_60("fromSM1")
 
+'''
 test_import()
 print(inspect.getsource(test1))
 test1()
+'''
 
