@@ -4,6 +4,7 @@ import datetime
 import re
 import urllib.request, urllib.parse
 import requests
+import numpy
 
 
 def get_sets_from_web(regulation: str):
@@ -61,6 +62,8 @@ def get_sets_from_web(regulation: str):
                 sets_from_sm1_list.append(sets_dict["sets"][i])
         # print(sets_from_sm1_list)
         sets_dict = {"sets": sets_from_sm1_list}
+    f = codecs.open("sets\u005C"+regulation+".json", "w", "utf-8")
+    json.dump(sets_dict, f, sort_keys=True, indent=4)
     return sets_dict
 
 
@@ -83,33 +86,10 @@ def import_cards(regulation: str):
         cards_dict = json.loads(cards_str)
         f = codecs.open("cards\u005C"+out_filename, "w", "utf-8")
         json.dump(cards_dict, f, sort_keys=True, indent=4)
+
+
 import_cards("fromXY1")
 
-'''
-sets_dic = json.load(open('sets.json', 'r'))
-i = 0
 
-for i in range(len(sets_dic['sets'])):
-    set_code = sets_dic['sets'][i]['code']
-    print("set_code=" + set_code)
-    out_filename = set_code + ".json"
-    i = i + 1
-
-    cards = Card.where(setCode=set_code).where(pageSize=1000).all()
-    print(cards)
-    out_filename = set_code + ".json"
-    f = open(out_filename, "w")
-    f.write(cards)
-    params = {
-        "setCode": set_code,
-        "pageSize": 1000
-    }
-    p = urllib.parse.urlencode(params)
-    url = "https://api.pokemontcg.io/v1/cards/?" + p
-    print(url)
-    r = requests.get(url)
-    cards_str = r.text
-    cards_dict = json.loads(cards_str)
-    f = codecs.open(out_filename, "w", "utf-8")
-    json.dump(cards_dict, f, sort_keys=True, indent=4)
-'''
+def construct_cardlist():
+    print("test")
