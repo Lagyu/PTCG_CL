@@ -100,3 +100,20 @@ def do_move(move_no: int):
             return False
     else:
         return False
+
+def end_turn:
+    pokemon_check()
+
+
+def pokemon_check():
+
+    # ここにポケモンチェックの内容を書く
+
+
+    if Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] == [1]:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] = [1]
+    elif Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] == [1]:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] = [1]
+

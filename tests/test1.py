@@ -1,5 +1,4 @@
 import ptcgcl
-import inspect
 
 import ptcgcl.Build_Deck
 
@@ -10,13 +9,11 @@ def test1():
 #    print(len(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("DECK_0")]))
 
 
-
 def test_import():
     ptcgcl.Import_cards.import_all_cards("fromXY1")
     ptcgcl.Import_cards.import_all_cards("Standard")
     ptcgcl.Import_cards.get_basic_energies_json()
 # 現状、"fromXY1"、"Standard"、"fromSM1"を実装済み
-
 
 
 def test_battle_starting():
@@ -27,7 +24,7 @@ def test_battle_starting():
     print("Drawn 7 cards!")
     print("Hand is: " + str(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("HAND_0")]))
     k = 0
-    while ptcgcl.Check.check_basic_in_hand() == False:
+    while not ptcgcl.Check.check_basic_in_hand():
         if k < 5:
             print("Mulligan!")
             print(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("HAND_0")])
