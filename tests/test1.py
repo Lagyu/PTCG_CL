@@ -9,7 +9,7 @@ def test1():
 #    print(len(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("DECK_0")]))
 
 
-'''
+
 
 def test_import():
     ptcgcl.Import_cards.import_all_cards("fromXY1")
@@ -40,6 +40,5 @@ def test_battle_starting():
 
 
 
-'''
 
 
