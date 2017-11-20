@@ -14,7 +14,8 @@ def test1():
 def test_import():
     ptcgcl.Import_cards.import_all_cards("fromXY1")
     ptcgcl.Import_cards.import_all_cards("Standard")
-
+    ptcgcl.Import_cards.get_basic_energies()
+# 現状、"fromXY1"、"Standard"、"fromSM1"を実装済み
 
 
 

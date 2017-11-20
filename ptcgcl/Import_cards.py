@@ -73,7 +73,6 @@ def get_sets_from_web(regulation: str):
 
 def save_card_jsons(regulation: str):
     sets_dic = get_sets_from_web(regulation)
-    cards_all_list = []
     for i in range(len(sets_dic['sets'])):
         set_code = sets_dic['sets'][i]['code']
         # print("set_code=" + set_code)
@@ -128,6 +127,25 @@ def import_all_cards(regulation: str):
     return cards_all_list
 
 
+def get_basic_energies():
+    out_filename = "basic_energies" + ".json"
+    params = {
+        "supertype": "energy",
+        "subtype": "basic",
+        "set": "generations"
+    }
+    p = urllib.parse.urlencode(params)
+    url = "https://api.pokemontcg.io/v1/cards/?" + p
+    # print(url)
+    r = requests.get(url)
+    cards_str = r.text
+    # print(cards_str)
+    cards_dict = json.loads(cards_str)
+    try:
+        f = codecs.open("cards\u005C" + out_filename, "w", "utf-8")  # cardsフォルダにキャッシュを保存
+    except FileNotFoundError:
+        os.mkdir("cards")
+        f = codecs.open("cards\u005C" + out_filename, "w", "utf-8")  # cardsフォルダにキャッシュを保存
 
-
+    json.dump(cards_dict, f, sort_keys=True, indent=4)
 

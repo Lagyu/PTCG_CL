@@ -123,10 +123,12 @@ def check_playable(card_issued: dict, _from: str, _to: str, bench_id: int):
         if card_issued["supertype"] == "Pokémon":
             if _to == "POKEMON_P_0":
                 if Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)][bench_id] == []:
-                    return True
-                elif "evolvesFrom" in card_issued:
-                    if Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)][-1]["name"] == card_issued["evolvesFrom"]:
+                    if ("evolvesFrom" in card_issued) == False:
                         return True
+                elif "evolvesFrom" in card_issued:
+                    if Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)][bench_id][-1]["name"] == card_issued["evolvesFrom"]:
+                        if Board.BOARD_ELEM[Board.BOARD_DIC.index("EVOLVED_0")][bench_id] == False:
+                            return True
             else:
                 return False
 
@@ -189,12 +191,12 @@ def check_retreatable():
         return False
 
 
-def check_moveusable(bench_id: int, moveno: int): # moveNo は、0,1,2...。
+def check_moveusable(bench_id: int, move_no: int): # move_no は、0,1,2...。
     pokemon_issued = get_pokemon_on_board_dict(bench_id)
     if "attacks" in pokemon_issued:
-        if len(pokemon_issued["attacks"]) > moveno:
+        if len(pokemon_issued["attacks"]) > move_no:
             parsed_arr = parseenergy(0)
-            move_issued = pokemon_issued["attacks"][moveno]
+            move_issued = pokemon_issued["attacks"][move_no]
             num_energy_needed = move_issued["convertedEnergyCost"]
             if num_energy_needed < parsed_arr[0]:
                 for i in range(num_energy_needed):
@@ -212,11 +214,13 @@ def parseenergy(bench_id: int):
     Energyarray = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id]
     length_energy = len(Energyarray)
     parsed_arr = []
-    Regexp_pattern = re.compile(r'\sEnergy$')
+    Regexp_pattern_1 = re.compile(r'\sEnergy$')
+    Regexp_pattern_2 = re.compile(r'^Basic\s')
     for i in range(length_energy):
         if Energyarray[i]["subtype"] == "Basic":
             cardname = Energyarray[i]["name"]
-            Type = re.sub(Regexp_pattern, "", cardname)
+            Type = re.sub(Regexp_pattern_1, "", cardname)
+            Type = re.sub(Regexp_pattern_2, "", Type)
             parsed_arr.append(Type)
         elif length_energy != len(parsed_arr):
             print("Unknown special energy has been attached.")
@@ -237,4 +241,5 @@ def check_benched_pokemon_exist():
 def get_pokemon_on_board_dict(bench_id: int):
     pokemon_issued = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id][-1]
     return pokemon_issued
+
 
