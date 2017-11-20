@@ -127,7 +127,7 @@ def import_all_cards(regulation: str):
     return cards_all_list
 
 
-def get_basic_energies():
+def get_basic_energies_json():
     out_filename = "basic_energies" + ".json"
     params = {
         "supertype": "energy",
