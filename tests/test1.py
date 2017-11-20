@@ -11,7 +11,6 @@ def test1():
 
 
 
-
 def test_import():
     ptcgcl.Import_cards.import_all_cards("fromXY1")
     ptcgcl.Import_cards.import_all_cards("Standard")
