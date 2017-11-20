@@ -1,6 +1,7 @@
 import ptcgcl
 import inspect
 
+import ptcgcl.Build_Deck
 
 
 def test1():
@@ -20,7 +21,8 @@ def test_import():
 
 
 def test_battle_starting():
-    ptcgcl.Check.filldeck_random_60("fromXY1")
+    ptcgcl.Build_Deck.load_from_file("test.csv")
+    ptcgcl.Move.shuffle_deck()
     for i in range(7):
         ptcgcl.Move.draw()
     print("Drawn 7 cards!")
@@ -33,8 +35,14 @@ def test_battle_starting():
             ptcgcl.Move.mulligan()
             k = k + 1
         else:
-            print("5 times mulligan. Died.")
+            print("5 times mulligan. Die.")
             return 1
+
+    hand_name_str = ""
+    for i in range(len(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("HAND_0")])):
+        hand_name_str = hand_name_str + ", " + ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("HAND_0")][i]["name"]
+    print("Hand(Name only) is" + hand_name_str)
+
     ptcgcl.Move.put_prize()
     print("placed 6 prize cards.")
     print(len(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("DECK_0")]))

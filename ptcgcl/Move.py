@@ -27,6 +27,11 @@ def shuffle_hand_into_deck():
     return 0
 
 
+def shuffle_deck():
+    random.shuffle(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")])
+    return 0
+
+
 def mulligan():
     shuffle_hand_into_deck()
     for i in range(7):
