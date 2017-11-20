@@ -99,7 +99,7 @@ def filldeck_random_60(regulation):
     print(str(len(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")]))+"枚")
 
 
-def filldeck_random_no_basics_60(regulation):
+def filldeck_random_without_basics_60(regulation):
     all_card_list = Import_cards.import_all_cards(regulation)
     len_all_card_list = len(all_card_list)
     if all_card_list:
@@ -116,25 +116,22 @@ def filldeck_random_no_basics_60(regulation):
 
 # filldeck_x60(card_test)
 
-Pokemon_From_HAND_To_Valid = [ "BATTLEPP_0", "BENCHP0_P_0", "BENCHP1_P_0", "BENCHP2_P_0", "BENCHP3_P_0", "BENCHP4_P_0", "BENCHP5_P_0", "BENCHP6_P_0", "BENCHP7_P_0" ]
-Tool_From_HAND_To_Valid = [ "BATTLEPA_0", "BENCHP0_A_0", "BENCHP1_A_0", "BENCHP2_A_0", "BENCHP3_A_0", "BENCHP4_A_0", "BENCHP5_A_0", "BENCHP6_A_0", "BENCHP7_A_0" ]
-Energy_From_HAND_To_Valid = ["BATTLEPE_0", "BENCHP0_E_0", "BENCHP1_E_0", "BENCHP2_E_0", "BENCHP3_E_0", "BENCHP4_E_0", "BENCHP5_E_0", "BENCHP6_E_0", "BENCHP7_E_0",]
 
 
-def check_playable(card_issued: dict, From: str, To: str):
-    if From == "HAND_0":
+def check_playable(card_issued: dict, _from: str, _to: str, bench_id: int):
+    if _from == "HAND_0":
         if card_issued["supertype"] == "Pokémon":
-            if To in Pokemon_From_HAND_To_Valid:
-                if Board.BOARD_ELEM[Board.BOARD_DIC.index(To)] == []:
+            if _to == "POKEMON_P_0":
+                if Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)][bench_id] == []:
                     return True
                 elif "evolvesFrom" in card_issued:
-                    if Board.BOARD_ELEM[Board.BOARD_DIC.index(To)][-1]["name"] == card_issued["evolvesFrom"]:
+                    if Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)][-1]["name"] == card_issued["evolvesFrom"]:
                         return True
             else:
                 return False
 
         elif card_issued["supertype"] == "Trainer":
-            if To == "INPLAY_0":
+            if _to == "INPLAY_0":
                 if card_issued["subtype"] == "Supporter":
                     if Board.BOARD_ELEM[Board.BOARD_DIC.index("SUPPORTER_PLAYED_0")] == []:
                         return True
@@ -144,16 +141,18 @@ def check_playable(card_issued: dict, From: str, To: str):
                     return True
 
             elif card_issued["subtype"] == "Pok\u00e9mon Tool":
-                if To in Tool_From_HAND_To_Valid:
-                    if Board.BOARD_ELEM[Board.BOARD_DIC.index(To)] == []:
-                        Index_Attatch = Board.BOARD_DIC.index(To)
-                        if Board.BOARD_ELEM[Index_Attatch - 4] != []:
-                            return True
+                if _to == "POKEMON_P_0":
+                    if Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)][bench_id] == []:
+                        return False
+                    elif Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id] == []:
+                        return True
+                    else:
+                        return False
                 else:
                     return False
 
             elif card_issued["subtype"] == "Stadium":
-                if To == "STADIUM_0":
+                if _to == "STADIUM_0":
                     if Board.BOARD_ELEM[Board.BOARD_DIC.index("STADIUM_PLAYED_0")] == []:
                         if card_issued["name"] != Board.BOARD_ELEM[Board.BOARD_DIC.index("STADIUM_PLAYED_0")][0]["name"]:
                             return True
@@ -161,12 +160,11 @@ def check_playable(card_issued: dict, From: str, To: str):
                     return False
 
         elif card_issued["subtype"] == "Energy":
-            if To in Energy_From_HAND_To_Valid and Board.BOARD_ELEM[Board.BOARD_DIC.index(To)] == []:
-                Index_Attatch = Board.BOARD_DIC.index(To)
-                if Board.BOARD_ELEM[Index_Attatch - 3] != []:
+            if _to == "POKEMON_P_0":
+                if Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)][bench_id] == []:
+                    return False
+                else:
                     return True
-            else:
-                return False
     else:
         return False
 
@@ -181,28 +179,21 @@ def check_basic_in_hand():
 
 
 def check_retreatable():
-    parsed_arr = parseenergy("BATTLEPE_0")
-    if Board.BOARD_ELEM[Board.BOARD_DIC.index("BENCHP0_P_0")] == []:
-        if Board.BOARD_ELEM[Board.BOARD_DIC.index("BENCHP1_P_0")] == []:
-            if Board.BOARD_ELEM[Board.BOARD_DIC.index("BENCHP2_P_0")] == []:
-                if Board.BOARD_ELEM[Board.BOARD_DIC.index("BENCHP3_P_0")] == []:
-                    if Board.BOARD_ELEM[Board.BOARD_DIC.index("BENCHP4_P_0")] == []:
-                        if Board.BOARD_ELEM[Board.BOARD_DIC.index("BENCHP5_P_0")] == []:
-                            if Board.BOARD_ELEM[Board.BOARD_DIC.index("BENCHP6_P_0")] == []:
-                                if Board.BOARD_ELEM[Board.BOARD_DIC.index("BENCHP7_P_0")] == []:
-                                    return False
-    elif parsed_arr[0] >= len(Board.BOARD_ELEM[Board.BOARD_DIC.index("BATTLEPP_0")][-1]["retreatCost"]):
-        return True
-    elif "FREE_RETREAT_FLAG" in Board.BOARD_ELEM[Board.BOARD_DIC.index("BATTLEPSC_0")]:
-        return True
+    parsed_arr = parseenergy(0)
+    if check_benched_pokemon_exist():
+        if parsed_arr[0] >= len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][0][-1]["retreatCost"]):
+            return True
+        elif "FREE_RETREAT_FLAG" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]:
+            return True
     else:
         return False
 
 
-def check_moveusable(pokemon_issued: dict, moveno: int): # moveNo は、0,1,2...。
+def check_moveusable(bench_id: int, moveno: int): # moveNo は、0,1,2...。
+    pokemon_issued = get_pokemon_on_board_dict(bench_id)
     if "attacks" in pokemon_issued:
         if len(pokemon_issued["attacks"]) > moveno:
-            parsed_arr = parseenergy("BATTLEPE_0")
+            parsed_arr = parseenergy(0)
             move_issued = pokemon_issued["attacks"][moveno]
             num_energy_needed = move_issued["convertedEnergyCost"]
             if num_energy_needed < parsed_arr[0]:
@@ -217,8 +208,8 @@ def check_moveusable(pokemon_issued: dict, moveno: int): # moveNo は、0,1,2...
         return False
 
 
-def parseenergy(object_name: str):
-    Energyarray = Board.BOARD_ELEM[Board.BOARD_DIC.index(object_name)]
+def parseenergy(bench_id: int):
+    Energyarray = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id]
     length_energy = len(Energyarray)
     parsed_arr = []
     Regexp_pattern = re.compile(r'\sEnergy$')
@@ -231,4 +222,19 @@ def parseenergy(object_name: str):
             print("Unknown special energy has been attached.")
     return [length_energy, parsed_arr]
 
+
+def check_benched_pokemon_exist():
+    exist = 0
+    for i in range(1, len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")])):
+        if Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][i] != []:
+            exist = exist +1
+    if exist == 0:
+        return False
+    else:
+        return True
+
+
+def get_pokemon_on_board_dict(bench_id: int):
+    pokemon_issued = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id][-1]
+    return pokemon_issued
 
