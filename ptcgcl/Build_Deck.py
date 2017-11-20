@@ -32,6 +32,7 @@ def filldeck_random_without_basics_60(regulation):
     print(str(len(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")]))+"枚")
 
 
+
 def load_from_file(filename: str):
     with open(filename) as fp:
         deck_lists = list(csv.reader(fp))
@@ -51,4 +52,20 @@ def load_from_file(filename: str):
         print(str(len(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")])) + "枚")
 
 
-
+def load_from_file(filename: str):
+    with open(filename) as fp:
+        deck_lists = list(csv.reader(fp))
+    deck_list = deck_lists[0]
+    if len(deck_list) == 60:
+        all_card_list = Import_cards.import_all_cards("fromXY1")
+        len_all_card_list = len(all_card_list)
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")] = []  # デッキを空にする
+        for i in range(60):
+            id_i = deck_list[i]
+            for k in range(len_all_card_list):
+                if all_card_list[k]["id"] == id_i:
+                    piyo = k
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].append(
+                all_card_list[piyo])  # CSVファイルで指定したidのカードを加える
+        print(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")])
+        print(str(len(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")])) + "枚")
