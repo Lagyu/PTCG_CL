@@ -25,13 +25,14 @@ def test_battle_starting():
     print("Hand is: " + str(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("HAND_0")]))
     k = 0
     while not ptcgcl.Check.check_basic_in_hand():
-        if k < 5:
+        if k < 100:
             print("Mulligan!")
             print(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("HAND_0")])
             ptcgcl.Perform.mulligan()
+            print("New hand is: " + str(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("HAND_0")]))
             k = k + 1
         else:
-            print("5 times mulligan. Die.")
+            print("100 times mulligan. There should be no basics.")  # たねポケモン入ってないデッキで無限マリガンするのを防ぐ
             return 1
 
     hand_name_str = ""
@@ -41,7 +42,7 @@ def test_battle_starting():
 
     ptcgcl.Perform.put_prize()
     print("placed 6 prize cards.")
-    print(len(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("DECK_0")]))
+    print("Deck count: "+str(len(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("DECK_0")])))
 
 
 
