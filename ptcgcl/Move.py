@@ -109,7 +109,7 @@ def pokemon_check():
 
     # ここにポケモンチェックの内容を書く
 
-
+    # ここから手番プレイヤー変更処理
     if Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] == [1]:
         Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] = []
         Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] = [1]
