@@ -33,7 +33,7 @@ def test_battle_starting():
             k = k + 1
         else:
             print("100 times mulligan. There should be no basics.")  # たねポケモン入ってないデッキで無限マリガンするのを防ぐ
-            return 1
+            return False
 
     hand_name_str = ""
     for i in range(len(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("HAND_0")])):
