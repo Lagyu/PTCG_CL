@@ -1,6 +1,5 @@
 import json
 import re
-
 from . import Board
 
 '''
