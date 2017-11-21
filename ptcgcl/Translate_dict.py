@@ -5,7 +5,7 @@ from . import Abilities
 moves_dict = {
     "xy6-77" : [Moves.sky_return()],
     "xy6-106" : [Moves.sky_return()],
-    
+
 
 
 
@@ -14,8 +14,8 @@ moves_dict = {
 
 
 ability_dict = {
-    "xy6-77": [Abilities.sky_return()],
-    "xy6-106": [Abilities.sky_return()],
+    "xy6-77": [Abilities.set_up()],
+    "xy6-106": [Abilities.set_up()],
 
 
 
