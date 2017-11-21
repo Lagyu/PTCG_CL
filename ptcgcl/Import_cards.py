@@ -2,7 +2,8 @@ import json
 import codecs
 import datetime
 import re
-import urllib.request, urllib.parse
+import urllib.request
+import urllib.parse
 import requests
 import os
 
