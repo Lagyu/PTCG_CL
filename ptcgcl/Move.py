@@ -101,7 +101,7 @@ def do_move(move_no: int):
     else:
         return False
 
-def end_turn:
+def end_turn():
     pokemon_check()
 
 
