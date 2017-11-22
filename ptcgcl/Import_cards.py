@@ -160,12 +160,51 @@ def create_moves_csv(regulation: str):
     try:
         with codecs.open("csv\u005C" + "move_sets.csv", "w", "utf-8") as f:  # cardsフォルダにキャッシュを保存
             writer = csv.writer(f, lineterminator='\n')  # 改行コード（\n）を指定しておく
-            writer.writerows(csv_list)  # 2次元配列も書き込める
+            writer.writerows(csv_list)  # 2次元配列を書き込む
     except FileNotFoundError:
         os.mkdir("csv")
         with codecs.open("csv\u005C" + "move_sets.csv", "w", "utf-8") as f:  # cardsフォルダにキャッシュを保存
             writer = csv.writer(f, lineterminator='\n')  # 改行コード（\n）を指定しておく
-            writer.writerows(csv_list)  # 2次元配列も書き込める
+            writer.writerows(csv_list)  # 2次元配列を書き込む
+
+
+def create_sp_energy_csv(regulation: str):
+    cards_all_list = []
+    try:
+        sets_list = json.load(open('sets\u005C' + regulation + '.json', 'r'))["sets"]
+    except FileNotFoundError:
+        sets_list = get_sets_from_web(regulation)["sets"]
+        print("FileNotFoundError(sets)")
+
+    for i in range(len(sets_list)):
+        set_code_i = sets_list[i]["code"]
+        try:
+            set_cards_list = json.load(open('cards\u005C' + set_code_i + '.json', 'r'))["cards"]
+        except FileNotFoundError:
+            print("FileNotFoundError(cards)")
+            save_card_jsons(regulation)
+            set_cards_list = json.load(open('cards\u005C' + set_code_i + '.json', 'r'))["cards"]
+        cards_all_list = cards_all_list + set_cards_list
+    print(len(cards_all_list))
+    csv_list = [["id", "name", "text"]]
+    for i in range(len(cards_all_list)):
+        try:
+            if cards_all_list[i]["supertype"] == "Energy":
+                if cards_all_list[i]["subtype"] == "Special":
+                    csv_list.append(
+                        [cards_all_list[i]["id"], cards_all_list[i]["name"]])
+        except KeyError:
+            pass
+    try:
+        with codecs.open("csv\u005C" + "spe_sets.csv", "w", "utf-8") as f:  # cardsフォルダにキャッシュを保存
+            writer = csv.writer(f, lineterminator='\n')  # 改行コード（\n）を指定しておく
+            writer.writerows(csv_list)  # 2次元配列を書き込む
+    except FileNotFoundError:
+        os.mkdir("csv")
+        with codecs.open("csv\u005C" + "spe_sets.csv", "w", "utf-8") as f:  # cardsフォルダにキャッシュを保存
+            writer = csv.writer(f, lineterminator='\n')  # 改行コード（\n）を指定しておく
+            writer.writerows(csv_list)  # 2次元配列を書き込む
+
 
 def get_basic_energies_json():
     out_filename = "basic_energies" + ".json"

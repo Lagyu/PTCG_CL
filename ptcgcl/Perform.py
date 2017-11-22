@@ -7,14 +7,28 @@ import random
 import traceback
 
 
-def draw():
-    if Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")] == []:
-        print("No more card in your deck!")
-        return 1
-    else:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")].append(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")][0])
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].pop(0)
-        return 0
+def draw(num=1):
+    for i in range(num):
+        if Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")] == []:
+            print("No more card in your deck!")
+            return False
+        else:
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")].append(
+                Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")][0])
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].pop(0)
+    return True
+
+
+def opponent_draw(num=1):
+    for i in range(num):
+        if Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")] == []:
+            print("No more card in your deck!")
+            return False
+        else:
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")].append(
+                Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")][0])
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")].pop(0)
+    return True
 
 
 def shuffle_hand_into_deck():
@@ -25,8 +39,21 @@ def shuffle_hand_into_deck():
     return 0
 
 
+def opponent_shuffle_hand_into_deck():
+    for i in range(len(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")])):
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")].append(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")][i])
+    Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")] = []
+    random.shuffle(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")])
+    return 0
+
+
 def shuffle_deck():
     random.shuffle(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")])
+    return 0
+
+
+def opponent_shuffle_deck():
+    random.shuffle(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")])
     return 0
 
 
@@ -39,8 +66,13 @@ def mulligan():
 def put_prize():
     for i in range(6):
         Board.BOARD_ELEM[Board.BOARD_DIC.index("PRIZE_0")].append(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")][0])
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].pop(0)
+        pop(0)
     return 0
+
+
+def check_top(player=0, num=1):
+    for i in range(num):
+        print(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_"+str(player))][i])
 
 
 def attach_energy(_from: str, card_no: int, bench_id: int):
@@ -105,6 +137,31 @@ def count_hand():
     return hand_count
 
 
+def count_opponents_hand():
+    hand_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")])
+    return hand_count
+
+
+def count_my_pokemons_on_board():
+    counter = 0
+    for i in range(8):
+        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][i]) == 0:
+            pass
+        else:
+            counter = counter + 1
+    return counter
+
+
+def count_opponents_pokemons_on_board():
+    counter = 0
+    for i in range(8):
+        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_1")][i]) == 0:
+            pass
+        else:
+            counter = counter + 1
+    return counter
+
+
 def return_pokemon_and_everything_attached(bench_id: int, _to: str):
     pokemon_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id])
     energy_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id])
@@ -123,27 +180,120 @@ def return_pokemon_and_everything_attached(bench_id: int, _to: str):
                 Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id][i])
         Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id] = []
         Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_0")][bench_id] = []
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][bench_id] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][bench_id] = {}
         Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id] = []
         Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id] = []
         return True
 
 
 def end_turn():
-    pokemon_check()
+    for i in range(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")]):
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][i].pop("CANNOT_USE_MOVE_0", None)
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][i].pop("CANNOT_USE_MOVE_1", None)
+
+        # ターン変更処理
+    if Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] == [1]:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_0")] = [1]
+    elif Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] == [1]:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_1")] = [1]
 
 
 def pokemon_check():
 
     # ここにポケモンチェックの内容を書く
 
+    # どくチェック
+    if "POISONED" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_0")][0][0] = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_0")][0][0] + (10 * Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]["POISONED"])
+        print("Your battle pokemon has taken damage for poison.")
+    if "POISONED" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][0]:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_1")][0][0] = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_1")][0][0] + (10 * Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][0]["POISONED"])
+        print("Opponent's battle pokemon has taken damage for poison.")
+    # どくチェックおわり
+
+    # ねむりチェック
+    if "ASLEEP" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]:
+        if flip_coin():
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0].pop("ASLEEP")
+            print("Now your pokemon is awake.")
+    if "ASLEEP" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][0]:
+        if flip_coin():
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][0].pop("ASLEEP")
+            print("Now opponent's pokemon is awake.")
+    # ねむりチェックおわり
+
+    # まひチェック
+    if "PARALYZED" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]:
+            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0].pop("ASLEEP")
+            print("Now your pokemon is refreshed from paralyzed..")
+    # まひチェックおわり
+
     # BY_TURN_N のフラッグをデクリメントするコード。0のときは取り除く
 
     # ここから手番プレイヤー変更処理
-    if Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] == [1]:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] = []
+    if Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_0")] == [1]:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_0")] = []
         Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] = [1]
-    elif Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] == [1]:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] = []
+    elif Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_1")] == [1]:
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_1")] = []
         Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] = [1]
+
+
+def ask_opp_move_id(bench_id):
+    print("Opponent's move id (0, 1,.)")
+    opp_move_id_input_int = int(input())
+    return opp_move_id_input_int
+
+
+def choose_my_pokemons_on_board(battle_bool: bool, pokemon_count: int):  # ポケモンが少ないと、戻り値がpokemon_count以下の個数の場合あり
+    counter_1 = 0
+    pokemon_ids_chosen_list = []
+    pokemon_on_board_count = count_my_pokemons_on_board()
+    if battle_bool:
+        if pokemon_count > pokemon_on_board_count:
+            pokemon_count = pokemon_on_board_count
+    else:
+        if pokemon_count > pokemon_on_board_count - 1:
+            pokemon_count = pokemon_on_board_count
+
+    while counter_1 < pokemon_count:
+        bench_id = input()
+        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id]) == 0:
+            pass
+        else:
+            pokemon_ids_chosen_list.append(bench_id)
+    return pokemon_ids_chosen_list
+
+
+def choose_opponents_pokemons_on_board(battle_bool: bool, pokemon_count: int):  # ポケモンが少ないと、戻り値がpokemon_count以下の個数の場合あり
+    counter_1 = 0
+    pokemon_ids_chosen_list = []
+    pokemon_on_board_count = count_opponents_pokemons_on_board()
+    if battle_bool:
+        if pokemon_count > pokemon_on_board_count:
+            pokemon_count = pokemon_on_board_count
+    else:
+        if pokemon_count > pokemon_on_board_count - 1:
+            pokemon_count = pokemon_on_board_count
+
+    while counter_1 < pokemon_count:
+        bench_id = input()
+        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_1")][bench_id]) == 0:
+            pass
+        else:
+            pokemon_ids_chosen_list.append(bench_id)
+    return pokemon_ids_chosen_list
+
+
+def flip_coin():
+    if random.random() < 0.5:
+        print("Coin tails.")
+        return False
+    else:
+        print("Coin heads.")
+        return True
+
+
 

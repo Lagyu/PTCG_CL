@@ -147,7 +147,7 @@ def check_basic_in_hand():
 
 
 def check_retreatable():
-    parsed_arr = parseenergy(0)
+    parsed_arr = parse_energy(0)
     if check_benched_pokemon_exist():
         if parsed_arr[0] >= len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][0][-1]["retreatCost"]):
             return True
@@ -159,39 +159,132 @@ def check_retreatable():
 
 def check_moveusable(bench_id: int, move_no: int): # move_no は、0,1,2...。
     pokemon_issued = get_pokemon_on_board_dict(bench_id)
+    if "CANNOT_USE_MOVE_1" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][bench_id]:
+        if move_no == Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][bench_id]["CANNOT_USE_MOVE_1"]:
+            return False
+    if "CANNOT_USE_MOVE_0" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][bench_id]:
+        if move_no == Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][bench_id]["CANNOT_USE_MOVE_0"]:
+            return False
     if "attacks" in pokemon_issued:
         if len(pokemon_issued["attacks"]) > move_no:
-            parsed_arr = parseenergy(0)
+            parsed_arr = parse_energy(0)
             move_issued = pokemon_issued["attacks"][move_no]
             num_energy_needed = move_issued["convertedEnergyCost"]
-            if num_energy_needed < parsed_arr[0]:
+            if num_energy_needed <= sum(parsed_arr[1]):
                 for i in range(num_energy_needed):
                     if move_issued["cost"][i] == "Colorless":
                         return True
-                    elif move_issued["cost"][i] in parsed_arr[1]:
-                        parsed_arr[1].pop(parsed_arr[1].index(move_issued["cost"][i]))
+                    elif move_issued["cost"][i] in parsed_arr[0]:
+                        parsed_arr[0].pop(parsed_arr[0].index(move_issued["cost"][i]))
+                    elif "all" in parsed_arr[0]:
+                        parsed_arr[0].pop(parsed_arr[0].index("all"))
                     else:
                         return False
     else:
         return False
 
 
-def parseenergy(bench_id: int):
-    Energyarray = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id]
-    length_energy = len(Energyarray)
+def parse_energy(bench_id: int):
+    energy_array = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id]
+    energy_elem_name_list = []
     parsed_arr = []
-    Regexp_pattern_1 = re.compile(r'\sEnergy$')
-    Regexp_pattern_2 = re.compile(r'^Basic\s')
-    for i in range(length_energy):
-        if Energyarray[i]["subtype"] == "Basic":
-            cardname = Energyarray[i]["name"]
-            Type = re.sub(Regexp_pattern_1, "", cardname)
-            Type = re.sub(Regexp_pattern_2, "", Type)
-            parsed_arr.append(Type)
-        elif length_energy != len(parsed_arr):
-            print("Unknown special energy has been attached.")
-    return [length_energy, parsed_arr]
+    regexp_pattern_1 = re.compile(r'\sEnergy$')
+    regexp_pattern_2 = re.compile(r'^Basic\s')
+    for i in range(len(energy_array)):
+        if energy_array[i]["subtype"] == "Basic":
+            cardname = energy_array[i]["name"]
+            type = re.sub(regexp_pattern_1, "", cardname)
+            type = re.sub(regexp_pattern_2, "", type)
+            parsed_arr.append(type)
+            energy_elem_name_list.append(energy_array[i]["name"])
+        elif energy_array[i]["subtype"] == "Special":
+            if energy_array[i]["name"] == "Double Colorless Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Colorless")
+                parsed_arr.append("Colorless")
+            if energy_array[i]["name"] == "Rainbow Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("all")
+            if energy_array[i]["name"] == "Herbal Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Grass")
+            if energy_array[i]["name"] == "Strong Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Fighting")
+            if energy_array[i]["name"] == "Mystery Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Psychic")
+            if energy_array[i]["name"] == "Shield Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Metal")
+            if energy_array[i]["name"] == "Wonder Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Fairy")
+            if energy_array[i]["name"] == "Double Aqua Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Water")
+                parsed_arr.append("Water")
+            if energy_array[i]["name"] == "Double Magma Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Fighting")
+                parsed_arr.append("Fighting")
+            if energy_array[i]["name"] == "Double Dragon Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("all")
+                parsed_arr.append("all")
+            if energy_array[i]["name"] == "Flash Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Lightning")
+            if energy_array[i]["name"] == "Dangerous Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Darkness")
+            if energy_array[i]["name"] == "Burning Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Fire")
+            if energy_array[i]["name"] == "Splash Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Water")
+            if energy_array[i]["name"] == "Warp Energy":
+                energy_elem_name_list.append(energy_array[i]["name"])
+                parsed_arr.append("Colorless")
+            if energy_array[i]["name"] == "Counter Energy":
+                if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("PRIZE_0")]) > len(Board.BOARD_ELEM[Board.BOARD_DIC.index("PRIZE_0")]):
+                    energy_elem_name_list.append(energy_array[i]["name"])
+                    energy_elem_name_list.append(energy_array[i]["name"])
+                    parsed_arr.append("all")
+                    parsed_arr.append("all")
+                else:
+                    energy_elem_name_list.append(energy_array[i]["name"])
+                    parsed_arr.append("Colorless")
+        elif energy_array[i]["name"] == "Electrode":
+            energy_elem_name_list.append(energy_array[i]["name"])
+            energy_elem_name_list.append(energy_array[i]["name"])
+            parsed_arr.append("Lightning")
+            parsed_arr.append("Lightning")
 
+    return [parsed_arr, energy_elem_name_list]
+
+
+def parse_basic_energy(bench_id: int):
+    energy_array = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id]
+    energy_elem_name_list = []
+    parsed_arr = []
+    regexp_pattern_1 = re.compile(r'\sEnergy$')
+    regexp_pattern_2 = re.compile(r'^Basic\s')
+    for i in range(len(energy_array)):
+        if energy_array[i]["subtype"] == "Basic":
+            cardname = energy_array[i]["name"]
+            type = re.sub(regexp_pattern_1, "", cardname)
+            type = re.sub(regexp_pattern_2, "", type)
+            parsed_arr.append(type)
+            energy_elem_name_list.append(energy_array[i]["name"])
+        else:
+            pass
+    return [parsed_arr, energy_elem_name_list]
 
 def check_benched_pokemon_exist():
     exist = 0
@@ -207,5 +300,38 @@ def check_benched_pokemon_exist():
 def get_pokemon_on_board_dict(bench_id: int):
     pokemon_issued = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id][-1]
     return pokemon_issued
+
+
+def calc_my_all_pokemons_max_hp():
+    max_hp_list = []
+    for i in range(8):
+        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][i]) == 0:
+            max_hp_list.append(0)
+        else:
+            if "MAX_HP_CHANGED" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][i]:
+                max_hp = int(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][i][-1]["hp"]) + Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][i]["MAX_HP_CHANGED"]
+                max_hp_list.append(max_hp)
+            else:
+                max_hp_list.append(int(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][i][-1]["hp"]))
+    return max_hp_list
+
+
+def calc_opponents_all_pokemons_max_hp():
+    max_hp_list = []
+    for i in range(8):
+        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_1")][i]) == 0:
+            max_hp_list.append(0)
+        else:
+            if "MAX_HP_CHANGED" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][i]:
+                max_hp = int(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_1")][i][-1]["hp"]) + Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][i]["MAX_HP_CHANGED"]
+                max_hp_list.append(max_hp)
+            else:
+                max_hp_list.append(int(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_1")][i][-1]["hp"]))
+    return max_hp_list
+
+
+
+
+
 
 
