@@ -1,7 +1,5 @@
 import json
 import re
-
-from ptcgcl import Board
 from . import Board
 from . import Import_cards
 from . import Check
@@ -101,6 +99,36 @@ def do_move(move_no: int):
     else:
         return False
 
+
+def count_hand():
+    hand_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")])
+    return hand_count
+
+
+def return_pokemon_and_everything_attached(bench_id: int, _to: str):
+    pokemon_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id])
+    energy_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id])
+    attachment_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id])
+    if pokemon_count == 0:
+        return False
+    else:
+        for i in range(pokemon_count):
+            Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)].append(
+                Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id][i])
+        for i in range(energy_count):
+            Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)].append(
+                Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id][i])
+        for i in range(attachment_count):
+            Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)].append(
+                Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id][i])
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_0")][bench_id] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][bench_id] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id] = []
+        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id] = []
+        return True
+
+
 def end_turn():
     pokemon_check()
 
@@ -108,6 +136,8 @@ def end_turn():
 def pokemon_check():
 
     # ここにポケモンチェックの内容を書く
+
+    # BY_TURN_N のフラッグをデクリメントするコード。0のときは取り除く
 
     # ここから手番プレイヤー変更処理
     if Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] == [1]:

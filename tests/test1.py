@@ -10,6 +10,11 @@ def test1():
 
 
 def test_import():
+    ptcgcl.Import_cards.create_moves_csv("fromXY1")
+
+
+test_import()
+'''
     ptcgcl.Import_cards.import_all_cards("fromXY1")
     ptcgcl.Import_cards.import_all_cards("Standard")
     ptcgcl.Import_cards.get_basic_energies_json()
@@ -43,8 +48,7 @@ def test_battle_starting():
     ptcgcl.Perform.put_prize()
     print("placed 6 prize cards.")
     print("Deck count: "+str(len(ptcgcl.Board.BOARD_ELEM[ptcgcl.Board.BOARD_DIC.index("DECK_0")])))
-
-
+'''
 
 
 

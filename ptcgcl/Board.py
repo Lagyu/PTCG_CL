@@ -40,10 +40,5 @@ BOARD_ELEM[BOARD_DIC.index("POKEMON_E_0")] = [[], [], [], [], [], [], [], [], []
 BOARD_ELEM[BOARD_DIC.index("POKEMON_A_0")] = [[], [], [], [], [], [], [], [], []]
 BOARD_ELEM[BOARD_DIC.index("EVOLVED_0")] = [False, False, False, False, False, False, False, False, False]
 
-# BOARD_ELEM[BOARD_DIC.index("必要な箇所の名前")] = [] で、BOARD_ELEMの要素を取得できる。
-
-
-def getelemlist(dicname: str):
-    element_list = BOARD_ELEM[BOARD_DIC.index(dicname)]
-    return element_list
+# BOARD_ELEM[BOARD_DIC.index("必要な箇所の名前")]  で、BOARD_ELEMの要素を取得できる。
 
