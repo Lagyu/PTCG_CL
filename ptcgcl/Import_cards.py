@@ -125,7 +125,7 @@ def import_all_cards(regulation: str):
             save_card_jsons(regulation)
             set_cards_list = json.load(open('cards\u005C' + set_code_i + '.json', 'r'))["cards"]
         cards_all_list = cards_all_list + set_cards_list
-    print(cards_all_list)
+#    print(cards_all_list)
     return cards_all_list
 
 

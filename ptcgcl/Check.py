@@ -1,6 +1,6 @@
 import json
 import re
-from . import Board
+from . import Board_changer
 
 '''
 カードの例
@@ -79,21 +79,21 @@ def filldeck_x60(a_card_dict: dict):
         print("no card value in param.")
     else:
         l =0
-        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")] = [] # デッキを空にする
+        Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("DECK_0")] = [] # デッキを空にする
         for l in range(60):
-            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")].append(a_card_dict)  # 引数のカードを60枚デッキに加える
+            Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("DECK_0")].append(a_card_dict)  # 引数のカードを60枚デッキに加える
 
 
 def check_playable(card_issued: dict, _from: str, _to: str, bench_id: int):
     if _from == "HAND_0":
         if card_issued["supertype"] == "Pokémon":
             if _to == "POKEMON_P_0":
-                if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_to)][bench_id] == []:
+                if Board_changer.Board().board_elem[Board_changer.Board().board_dic.index(_to)][bench_id] == []:
                     if ("evolvesFrom" in card_issued) == False:
                         return True
                 elif "evolvesFrom" in card_issued:
-                    if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_to)][bench_id][-1]["name"] == card_issued["evolvesFrom"]:
-                        if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("EVOLVED_0")][bench_id] == False:
+                    if Board_changer.Board().board_elem[Board_changer.Board().board_dic.index(_to)][bench_id][-1]["name"] == card_issued["evolvesFrom"]:
+                        if Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("EVOLVED_0")][bench_id] == False:
                             return True
             else:
                 return False
@@ -101,7 +101,7 @@ def check_playable(card_issued: dict, _from: str, _to: str, bench_id: int):
         elif card_issued["supertype"] == "Trainer":
             if _to == "INPLAY_0":
                 if card_issued["subtype"] == "Supporter":
-                    if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("SUPPORTER_PLAYED_0")] == []:
+                    if Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("SUPPORTER_PLAYED_0")] == []:
                         return True
                     else:
                         return False
@@ -110,9 +110,9 @@ def check_playable(card_issued: dict, _from: str, _to: str, bench_id: int):
 
             elif card_issued["subtype"] == "Pok\u00e9mon Tool":
                 if _to == "POKEMON_P_0":
-                    if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_to)][bench_id] == []:
+                    if Board_changer.Board().board_elem[Board_changer.Board().board_dic.index(_to)][bench_id] == []:
                         return False
-                    elif Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_A_0")][bench_id] == []:
+                    elif Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_A_0")][bench_id] == []:
                         return True
                     else:
                         return False
@@ -121,15 +121,15 @@ def check_playable(card_issued: dict, _from: str, _to: str, bench_id: int):
 
             elif card_issued["subtype"] == "Stadium":
                 if _to == "STADIUM_0":
-                    if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("STADIUM_PLAYED_0")] == []:
-                        if card_issued["name"] != Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("STADIUM_PLAYED_0")][0]["name"]:
+                    if Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("STADIUM_PLAYED_0")] == []:
+                        if card_issued["name"] != Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("STADIUM_PLAYED_0")][0]["name"]:
                             return True
                 else:
                     return False
 
         elif card_issued["subtype"] == "Energy":
             if _to == "POKEMON_P_0":
-                if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_to)][bench_id] == []:
+                if Board_changer.Board().board_elem[Board_changer.Board().board_dic.index(_to)][bench_id] == []:
                     return False
                 else:
                     return True
@@ -138,7 +138,7 @@ def check_playable(card_issued: dict, _from: str, _to: str, bench_id: int):
 
 
 def check_basic_in_hand():
-    hand_list = Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")]
+    hand_list = Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("HAND_0")]
     for i in range(len(hand_list)):
         if hand_list[i]["supertype"] == "Pok\u00E9mon":
             if hand_list[i]["subtype"] == "Basic":
@@ -149,9 +149,9 @@ def check_basic_in_hand():
 def check_retreatable():
     parsed_arr = parse_energy(0)
     if check_benched_pokemon_exist():
-        if parsed_arr[0] >= len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][0][-1]["retreatCost"]):
+        if parsed_arr[0] >= len(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_0")][0][-1]["retreatCost"]):
             return True
-        elif "FREE_RETREAT_FLAG" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][0]:
+        elif "FREE_RETREAT_FLAG" in Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_0")][0]:
             return True
     else:
         return False
@@ -159,11 +159,11 @@ def check_retreatable():
 
 def check_moveusable(bench_id: int, move_no: int): # move_no は、0,1,2...。
     pokemon_issued = get_pokemon_on_board_dict(bench_id)
-    if "CANNOT_USE_MOVE_1" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][bench_id]:
-        if move_no == Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][bench_id]["CANNOT_USE_MOVE_1"]:
+    if "CANNOT_USE_MOVE_1" in Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_0")][bench_id]:
+        if move_no == Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_0")][bench_id]["CANNOT_USE_MOVE_1"]:
             return False
-    if "CANNOT_USE_MOVE_0" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][bench_id]:
-        if move_no == Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][bench_id]["CANNOT_USE_MOVE_0"]:
+    if "CANNOT_USE_MOVE_0" in Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_0")][bench_id]:
+        if move_no == Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_0")][bench_id]["CANNOT_USE_MOVE_0"]:
             return False
     if "attacks" in pokemon_issued:
         if len(pokemon_issued["attacks"]) > move_no:
@@ -185,7 +185,7 @@ def check_moveusable(bench_id: int, move_no: int): # move_no は、0,1,2...。
 
 
 def parse_energy(bench_id: int):
-    energy_array = Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_E_0")][bench_id]
+    energy_array = Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_E_0")][bench_id]
     energy_elem_name_list = []
     parsed_arr = []
     regexp_pattern_1 = re.compile(r'\sEnergy$')
@@ -252,7 +252,7 @@ def parse_energy(bench_id: int):
                 energy_elem_name_list.append(energy_array[i]["name"])
                 parsed_arr.append("Colorless")
             if energy_array[i]["name"] == "Counter Energy":
-                if len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("PRIZE_0")]) > len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("PRIZE_0")]):
+                if len(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("PRIZE_0")]) > len(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("PRIZE_0")]):
                     energy_elem_name_list.append(energy_array[i]["name"])
                     energy_elem_name_list.append(energy_array[i]["name"])
                     parsed_arr.append("all")
@@ -270,7 +270,7 @@ def parse_energy(bench_id: int):
 
 
 def parse_basic_energy(bench_id: int):
-    energy_array = Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_E_0")][bench_id]
+    energy_array = Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_E_0")][bench_id]
     energy_elem_name_list = []
     parsed_arr = []
     regexp_pattern_1 = re.compile(r'\sEnergy$')
@@ -288,8 +288,8 @@ def parse_basic_energy(bench_id: int):
 
 def check_benched_pokemon_exist():
     exist = 0
-    for i in range(1, len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")])):
-        if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][i] != []:
+    for i in range(1, len(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_0")])):
+        if Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_0")][i] != []:
             exist = exist +1
     if exist == 0:
         return False
@@ -298,35 +298,35 @@ def check_benched_pokemon_exist():
 
 
 def get_pokemon_on_board_dict(bench_id: int):
-    pokemon_issued = Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][bench_id][-1]
+    pokemon_issued = Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_0")][bench_id][-1]
     return pokemon_issued
 
 
 def calc_my_all_pokemons_max_hp():
     max_hp_list = []
     for i in range(8):
-        if len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][i]) == 0:
+        if len(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_0")][i]) == 0:
             max_hp_list.append(0)
         else:
-            if "MAX_HP_CHANGED" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][i]:
-                max_hp = int(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][i][-1]["hp"]) + Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][i]["MAX_HP_CHANGED"]
+            if "MAX_HP_CHANGED" in Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_0")][i]:
+                max_hp = int(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_0")][i][-1]["hp"]) + Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_0")][i]["MAX_HP_CHANGED"]
                 max_hp_list.append(max_hp)
             else:
-                max_hp_list.append(int(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][i][-1]["hp"]))
+                max_hp_list.append(int(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_0")][i][-1]["hp"]))
     return max_hp_list
 
 
 def calc_opponents_all_pokemons_max_hp():
     max_hp_list = []
     for i in range(8):
-        if len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_1")][i]) == 0:
+        if len(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_1")][i]) == 0:
             max_hp_list.append(0)
         else:
-            if "MAX_HP_CHANGED" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_1")][i]:
-                max_hp = int(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_1")][i][-1]["hp"]) + Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_1")][i]["MAX_HP_CHANGED"]
+            if "MAX_HP_CHANGED" in Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_1")][i]:
+                max_hp = int(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_1")][i][-1]["hp"]) + Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_SC_1")][i]["MAX_HP_CHANGED"]
                 max_hp_list.append(max_hp)
             else:
-                max_hp_list.append(int(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_1")][i][-1]["hp"]))
+                max_hp_list.append(int(Board_changer.Board().board_elem[Board_changer.Board().board_dic.index("POKEMON_P_1")][i][-1]["hp"]))
     return max_hp_list
 
 
