@@ -9,51 +9,51 @@ import traceback
 
 def draw(num=1):
     for i in range(num):
-        if Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")] == []:
+        if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")] == []:
             print("No more card in your deck!")
             return False
         else:
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")].append(
-                Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")][0])
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].pop(0)
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")].append(
+                Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")][0])
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")].pop(0)
     return True
 
 
 def opponent_draw(num=1):
     for i in range(num):
-        if Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")] == []:
+        if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_1")] == []:
             print("No more card in your deck!")
             return False
         else:
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")].append(
-                Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")][0])
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")].pop(0)
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_1")].append(
+                Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_1")][0])
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_1")].pop(0)
     return True
 
 
 def shuffle_hand_into_deck():
-    for i in range(len(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")])):
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")].append(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")][i])
-    Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")] = []
-    random.shuffle(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")])
+    for i in range(len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")])):
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")].append(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")][i])
+    Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")] = []
+    random.shuffle(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")])
     return 0
 
 
 def opponent_shuffle_hand_into_deck():
-    for i in range(len(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")])):
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")].append(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")][i])
-    Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")] = []
-    random.shuffle(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")])
+    for i in range(len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_1")])):
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_1")].append(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_1")][i])
+    Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_1")] = []
+    random.shuffle(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_1")])
     return 0
 
 
 def shuffle_deck():
-    random.shuffle(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")])
+    random.shuffle(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")])
     return 0
 
 
 def opponent_shuffle_deck():
-    random.shuffle(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_1")])
+    random.shuffle(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_1")])
     return 0
 
 
@@ -65,21 +65,21 @@ def mulligan():
 
 def put_prize():
     for i in range(6):
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("PRIZE_0")].append(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_0")][0])
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("PRIZE_0")].append(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_0")][0])
         pop(0)
     return 0
 
 
 def check_top(player=0, num=1):
     for i in range(num):
-        print(Board.BOARD_ELEM[Board.BOARD_DIC.index("DECK_"+str(player))][i])
+        print(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("DECK_"+str(player))][i])
 
 
 def attach_energy(_from: str, card_no: int, bench_id: int):
-    if Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id] != []:
+    if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][bench_id] != []:
         try:
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id].append(Board.BOARD_ELEM[Board.BOARD_DIC.index(_from)][card_no])
-            Board.BOARD_ELEM[Board.BOARD_DIC.index(_from)].pop(card_no)
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_E_0")][bench_id].append(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_from)][card_no])
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_from)].pop(card_no)
             return True
         except:
             traceback.print_exc()
@@ -89,10 +89,10 @@ def attach_energy(_from: str, card_no: int, bench_id: int):
 
 
 def play_pokemon_from_hand(card_no: int, bench_id: int):
-    if Check.check_playable(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")][card_no], "HAND_0", "POKEMON_P_0", bench_id):
+    if Check.check_playable(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")][card_no], "HAND_0", "POKEMON_P_0", bench_id):
         try:
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id].append(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")][card_no])
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")].pop(card_no)
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][bench_id].append(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")][card_no])
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")].pop(card_no)
             return True
         except:
             traceback.print_exc()
@@ -102,12 +102,12 @@ def play_pokemon_from_hand(card_no: int, bench_id: int):
 
 
 def attach_energy_from_hand(card_no: int, bench_id: int):
-    if Check.check_playable(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")][card_no], "HAND_0", "POKEMON_P_0", bench_id):
-        if Board.BOARD_ELEM[Board.BOARD_DIC.index("ENERGY_ATTACHED_0")] == []:
+    if Check.check_playable(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")][card_no], "HAND_0", "POKEMON_P_0", bench_id):
+        if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("ENERGY_ATTACHED_0")] == []:
             try:
-                Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id].append(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")][card_no])
-                Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")].pop(card_no)
-                Board.BOARD_ELEM[Board.BOARD_DIC.index("ENERGY_ATTACHED_0")].append("Already Attached.")
+                Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_E_0")][bench_id].append(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")][card_no])
+                Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")].pop(card_no)
+                Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("ENERGY_ATTACHED_0")].append("Already Attached.")
                 return True
             except:
                 traceback.print_exc()
@@ -121,9 +121,9 @@ def attach_energy_from_hand(card_no: int, bench_id: int):
 
 def do_move(move_no: int):
     if Check.check_moveusable(move_no):
-        if Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][0][-1]["attacks"][move_no]["text"] == "":
-            damage = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][0][-1]["attacks"][move_no]["damage"]
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_1")][0][0] = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_1")][0][0] + damage
+        if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][0][-1]["attacks"][move_no]["text"] == "":
+            damage = Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][0][-1]["attacks"][move_no]["damage"]
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_D_1")][0][0] = Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_D_1")][0][0] + damage
             return True
         else:
             # ここにテキストのある技の処理を書く
@@ -133,19 +133,19 @@ def do_move(move_no: int):
 
 
 def count_hand():
-    hand_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_0")])
+    hand_count = len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_0")])
     return hand_count
 
 
 def count_opponents_hand():
-    hand_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("HAND_1")])
+    hand_count = len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("HAND_1")])
     return hand_count
 
 
 def count_my_pokemons_on_board():
     counter = 0
     for i in range(8):
-        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][i]) == 0:
+        if len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][i]) == 0:
             pass
         else:
             counter = counter + 1
@@ -155,7 +155,7 @@ def count_my_pokemons_on_board():
 def count_opponents_pokemons_on_board():
     counter = 0
     for i in range(8):
-        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_1")][i]) == 0:
+        if len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_1")][i]) == 0:
             pass
         else:
             counter = counter + 1
@@ -163,41 +163,41 @@ def count_opponents_pokemons_on_board():
 
 
 def return_pokemon_and_everything_attached(bench_id: int, _to: str):
-    pokemon_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id])
-    energy_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id])
-    attachment_count = len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id])
+    pokemon_count = len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][bench_id])
+    energy_count = len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_E_0")][bench_id])
+    attachment_count = len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_A_0")][bench_id])
     if pokemon_count == 0:
         return False
     else:
         for i in range(pokemon_count):
-            Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)].append(
-                Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id][i])
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_to)].append(
+                Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][bench_id][i])
         for i in range(energy_count):
-            Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)].append(
-                Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id][i])
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_to)].append(
+                Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_E_0")][bench_id][i])
         for i in range(attachment_count):
-            Board.BOARD_ELEM[Board.BOARD_DIC.index(_to)].append(
-                Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id][i])
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id] = []
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_0")][bench_id] = []
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][bench_id] = {}
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_E_0")][bench_id] = []
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_A_0")][bench_id] = []
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index(_to)].append(
+                Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_A_0")][bench_id][i])
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][bench_id] = []
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_D_0")][bench_id] = []
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][bench_id] = {}
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_E_0")][bench_id] = []
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_A_0")][bench_id] = []
         return True
 
 
 def end_turn():
-    for i in range(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")]):
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][i].pop("CANNOT_USE_MOVE_0", None)
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][i].pop("CANNOT_USE_MOVE_1", None)
+    for i in range(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")]):
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][i].pop("CANNOT_USE_MOVE_0", None)
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][i].pop("CANNOT_USE_MOVE_1", None)
 
         # ターン変更処理
-    if Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] == [1]:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] = []
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_0")] = [1]
-    elif Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] == [1]:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] = []
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_1")] = [1]
+    if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("MY_TURN_0")] == [1]:
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("MY_TURN_0")] = []
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("WAS_MY_TURN_0")] = [1]
+    elif Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("MY_TURN_1")] == [1]:
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("MY_TURN_1")] = []
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("WAS_MY_TURN_1")] = [1]
 
 
 def pokemon_check():
@@ -205,40 +205,40 @@ def pokemon_check():
     # ここにポケモンチェックの内容を書く
 
     # どくチェック
-    if "POISONED" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_0")][0][0] = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_0")][0][0] + (10 * Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]["POISONED"])
+    if "POISONED" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][0]:
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_D_0")][0][0] = Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_D_0")][0][0] + (10 * Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][0]["POISONED"])
         print("Your battle pokemon has taken damage for poison.")
-    if "POISONED" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][0]:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_1")][0][0] = Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_D_1")][0][0] + (10 * Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][0]["POISONED"])
+    if "POISONED" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_1")][0]:
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_D_1")][0][0] = Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_D_1")][0][0] + (10 * Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_1")][0]["POISONED"])
         print("Opponent's battle pokemon has taken damage for poison.")
     # どくチェックおわり
 
     # ねむりチェック
-    if "ASLEEP" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]:
+    if "ASLEEP" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][0]:
         if flip_coin():
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0].pop("ASLEEP")
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][0].pop("ASLEEP")
             print("Now your pokemon is awake.")
-    if "ASLEEP" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][0]:
+    if "ASLEEP" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_1")][0]:
         if flip_coin():
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_1")][0].pop("ASLEEP")
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_1")][0].pop("ASLEEP")
             print("Now opponent's pokemon is awake.")
     # ねむりチェックおわり
 
     # まひチェック
-    if "PARALYZED" in Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0]:
-            Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_SC_0")][0].pop("ASLEEP")
+    if "PARALYZED" in Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][0]:
+            Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_SC_0")][0].pop("ASLEEP")
             print("Now your pokemon is refreshed from paralyzed..")
     # まひチェックおわり
 
     # BY_TURN_N のフラッグをデクリメントするコード。0のときは取り除く
 
     # ここから手番プレイヤー変更処理
-    if Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_0")] == [1]:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_0")] = []
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_1")] = [1]
-    elif Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_1")] == [1]:
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("WAS_MY_TURN_1")] = []
-        Board.BOARD_ELEM[Board.BOARD_DIC.index("MY_TURN_0")] = [1]
+    if Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("WAS_MY_TURN_0")] == [1]:
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("WAS_MY_TURN_0")] = []
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("MY_TURN_1")] = [1]
+    elif Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("WAS_MY_TURN_1")] == [1]:
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("WAS_MY_TURN_1")] = []
+        Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("MY_TURN_0")] = [1]
 
 
 def ask_opp_move_id(bench_id):
@@ -260,7 +260,7 @@ def choose_my_pokemons_on_board(battle_bool: bool, pokemon_count: int):  # ポ�
 
     while counter_1 < pokemon_count:
         bench_id = input()
-        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_0")][bench_id]) == 0:
+        if len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_0")][bench_id]) == 0:
             pass
         else:
             pokemon_ids_chosen_list.append(bench_id)
@@ -280,7 +280,7 @@ def choose_opponents_pokemons_on_board(battle_bool: bool, pokemon_count: int):  
 
     while counter_1 < pokemon_count:
         bench_id = input()
-        if len(Board.BOARD_ELEM[Board.BOARD_DIC.index("POKEMON_P_1")][bench_id]) == 0:
+        if len(Board.Board().BOARD_ELEM[Board.Board().BOARD_DIC.index("POKEMON_P_1")][bench_id]) == 0:
             pass
         else:
             pokemon_ids_chosen_list.append(bench_id)
