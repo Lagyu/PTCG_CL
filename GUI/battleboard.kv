@@ -1,0 +1,129 @@
+BoxLayout:
+    orientation: "vertical"
+    BoxLayout:
+        id: opp_hand_zone
+        size_hint_y: 0.75
+        orientation: "horizontal"
+        Label:
+            text: "Margin_left"
+            size_hint_x: 0.1
+        Label:
+            text: "hand"
+            size_hint_x: 0.8
+        Label:
+            text: "Margin_right"
+            size_hint_x: 0.1
+    BoxLayout:
+        id: opp_bench_zone
+        size_hint_y: 0.95
+        orientation: "horizontal"
+        Label:
+            text: "Margin_left"
+            size_hint_x: 0.05
+        Label:
+            text: "trash_pile"
+            size_hint_x: 0.2
+        FloatLayout:
+            pos: self.parent.pos
+            size: self.parent.size
+            size_hint_x: 0.7
+            canvas.before:
+                Color:
+                    rgba: 0.1, 0, 0, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            BoxLayout:
+                size_hint_x: len(self.children) * 0.15
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                Image:
+                    source: "128.png"
+                FloatLayout:
+                    pos: self.parent.pos
+                    size: self.parent.size
+                    Image:
+                        id: bench_1
+                        pos: self.parent.pos
+                        source: "123.png"
+                    BoxLayout:
+                        index: 100
+                        pos: self.parent.x, self.parent.y - (self.height * 0.5)
+                        size_hint_y: 0.2
+                        Image:
+                            source: "hiyoko.jpg"
+        Label:
+            text: "right"
+            size_hint_x: 0.05
+    BoxLayout:
+        id: opp_bp_zone
+        size_hint_y: 1.15
+        orientation: "horizontal"
+        Label:
+            text: "Margin_left"
+            size_hint_x: 0.05
+        Label:
+            text: "deck"
+            size_hint_x: 0.15
+        Label:
+            text: "bp"
+            size_hint_x: 0.4
+        Label:
+            text: "GX_marker"
+            size_hint_x: 0.15
+        Label:
+            text: "prize"
+            size_hint_x: 0.15
+        Label:
+            text: "Margin_right"
+            size_hint_x: 0.05
+    BoxLayout:
+        id: my_bp_zone
+        size_hint_y: 1.2
+        orientation: "horizontal"
+        Label:
+            text: "Margin_left"
+            size_hint_x: 0.05
+        Label:
+            text: "GX_marker"
+            size_hint_x: 0.15
+        Label:
+            text: "prize"
+            size_hint_x: 0.15
+        Label:
+            text: "bp"
+            size_hint_x: 0.4
+        Label:
+            text: "deck"
+            size_hint_x: 0.15
+        Label:
+            text: "Margin_right"
+            size_hint_x: 0.05
+    BoxLayout:
+        id: my_bench_zone
+        size_hint_y: 1
+        orientation: "horizontal"
+        Label:
+            text: "Margin_left"
+            size_hint_x: 0.05
+        Label:
+            text: "bench"
+            size_hint_x: 0.7
+        Label:
+            text: "trash_pile"
+            size_hint_x: 0.2
+        Label:
+            text: "Margin_right"
+            size_hint_x: 0.05
+    BoxLayout:
+        id: my_hand_zone
+        size_hint_y: 0.8
+        orientation: "horizontal"
+        Label:
+            text: "Margin_left"
+            size_hint_x: 0.1
+        Label:
+            text: "hand"
+            size_hint_x: 0.8
+        Label:
+            text: "Margin_right"
+            size_hint_x: 0.1

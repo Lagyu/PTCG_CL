@@ -1,13 +1,15 @@
 import ptcgcl
 
 import ptcgcl.Build_Deck
-
+'''
 
 def test1():
     ptcgcl.Check.filldeck_x60(ptcgcl.Check.card_test)
     print(ptcgcl.Check.check_playable(ptcgcl.Check.card_test, "HAND_0", "POKEMON_P_0", 5))
 #    print(len(ptcgcl.Board().board_elem[ptcgcl.Board_changer.Board().board_dic.index("DECK_0")]))
-
+'''
+def test1():
+    ptcgcl.Import_cards.create_img_database("fromXY1")
 '''
 
 def test_import():
@@ -19,7 +21,6 @@ def test_import():
 # 現状、"fromXY1"、"Standard"、"fromSM1"を実装済み
 test_import()
 
-'''
 
 def test_battle_starting():
     ptcgcl.Build_Deck.load_from_file("test.csv")
@@ -49,5 +50,6 @@ def test_battle_starting():
     print("placed 6 prize cards.")
     print("Deck count: " + str(len(ptcgcl.Board_changer.Board().board_elem[ptcgcl.Board_changer.Board().board_dic.index("DECK_0")])))
 
+'''
 
 

@@ -7,6 +7,8 @@ import urllib.parse
 import requests
 import os
 import csv
+import shutil
+from multiprocessing import Pool
 
 
 def get_sets_from_web(regulation: str):
@@ -168,6 +170,45 @@ def create_moves_csv(regulation: str):
             writer.writerows(csv_list)  # 2次元配列を書き込む
 
 
+def create_img_database(regulation: str):
+    cards_all_list = []
+    print("ぴよ。")
+    try:
+        sets_list = json.load(open('sets\u005C' + regulation + '.json', 'r'))["sets"]
+    except FileNotFoundError:
+        sets_list = get_sets_from_web(regulation)["sets"]
+        print("FileNotFoundError(sets)")
+
+    for i in range(len(sets_list)):
+        set_code_i = sets_list[i]["code"]
+        try:
+            set_cards_list = json.load(open('cards\u005C' + set_code_i + '.json', 'r'))["cards"]
+        except FileNotFoundError:
+            print("FileNotFoundError(cards)")
+            save_card_jsons(regulation)
+            set_cards_list = json.load(open('cards\u005C' + set_code_i + '.json', 'r'))["cards"]
+        cards_all_list = cards_all_list + set_cards_list
+    print(len(cards_all_list))  # ここまでカード一覧の取得
+    url_list = []
+    try:
+        os.mkdir("images")
+    except FileExistsError:
+        pass
+    for i in range(len(cards_all_list)):
+        url_list.append(cards_all_list[i]["imageUrl"])
+    p = Pool(16)
+    p.map(dl_img_and_save, url_list)
+    p.close()
+
+
+def dl_img_and_save(url: str):
+    res = requests.get(url, stream=True)
+    filename = "images\u005C" + url.split("/")[-2] + "-" + url.split("/")[-1]
+    with open(filename, "wb") as fp:
+        shutil.copyfileobj(res.raw, fp)
+        print(filename)
+
+
 def create_sp_energy_csv(regulation: str):
     cards_all_list = []
     try:
@@ -227,6 +268,7 @@ def get_basic_energies_json():
         f = codecs.open("cards\u005C" + out_filename, "w", "utf-8")  # cardsフォルダにキャッシュを保存
 
     json.dump(cards_dict, f, sort_keys=True, indent=4)
+
 
 def save_card_jsons_sorted(regulation: str):
     sets_dic = get_sets_from_web(regulation)
