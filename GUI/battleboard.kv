@@ -1,3 +1,7 @@
+<DraggableImage>:
+    drag_rectangle: self.x, self.y, self.width, self.height
+    drag_timeout: 10000000
+    drag_distance: 0
 BoxLayout:
     orientation: "vertical"
     BoxLayout:
@@ -36,8 +40,9 @@ BoxLayout:
             BoxLayout:
                 size_hint_x: len(self.children) * 0.15
                 pos_hint: {"center_x": 0.5, "center_y": 0.5}
-                Image:
+                DraggableImage:
                     source: "128.png"
+                    name: "piyo128"
                 FloatLayout:
                     pos: self.parent.pos
                     size: self.parent.size
