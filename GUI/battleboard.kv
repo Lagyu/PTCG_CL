@@ -1,33 +1,37 @@
-<DraggableImage>:
-    drag_rectangle: self.x, self.y, self.width, self.height
-    drag_timeout: 10000000
-    drag_distance: 0
-BoxLayout:
+<Board>:
     orientation: "vertical"
-    BoxLayout:
-        id: opp_hand_zone
-        size_hint_y: 0.75
+    OppBPArea:
+        id: opp_bp_area
+        size_hint_y: 1.1
         orientation: "horizontal"
-        Label:
-            text: "Margin_left"
-            size_hint_x: 0.1
-        Label:
-            text: "hand"
-            size_hint_x: 0.8
-        Label:
-            text: "Margin_right"
-            size_hint_x: 0.1
-    BoxLayout:
-        id: opp_bench_zone
-        size_hint_y: 0.95
-        orientation: "horizontal"
-        Label:
+        OppBPMarginLabelLeft:
             text: "Margin_left"
             size_hint_x: 0.05
-        Label:
-            text: "trash_pile"
-            size_hint_x: 0.2
-        FloatLayout:
+        OppBPGXMarker:
+            text: "GX_marker"
+            size_hint_x: 0.15
+        OppBPPrizePile:
+            text: "prize"
+            size_hint_x: 0.15
+        OppBPBattlePokemonBoxLayout:
+            text: "bp"
+            size_hint_x: 0.4
+        OppBPDeck:
+            text: "deck"
+            size_hint_x: 0.15
+        OppBPMarginLabelRIght:
+            text: "Margin_right"
+            size_hint_x: 0.05
+    OppBenchArea:
+        id: opp_bench_area
+        size_hint_y: 0.95
+        orientation: "horizontal"
+        OppBenchMarginLabelLeft:
+            text: "Margin_left"
+            size_hint_x: 0.05
+        OppBenchBenchPokemonFloatLayoutContainer:
+            name: "AAAAAAAAAA"
+            id: "AAAAAAAAAA_id"
             pos: self.parent.pos
             size: self.parent.size
             size_hint_x: 0.7
@@ -37,98 +41,144 @@ BoxLayout:
                 Rectangle:
                     pos: self.pos
                     size: self.size
-            BoxLayout:
+            OppBenchBenchPokemonInnerBoxLayout:
                 size_hint_x: len(self.children) * 0.15
                 pos_hint: {"center_x": 0.5, "center_y": 0.5}
-                DraggableImage:
-                    source: "128.png"
-                    name: "piyo128"
-                FloatLayout:
-                    pos: self.parent.pos
-                    size: self.parent.size
-                    Image:
-                        id: bench_1
-                        pos: self.parent.pos
-                        source: "123.png"
-                    BoxLayout:
-                        index: 100
-                        pos: self.parent.x, self.parent.y - (self.height * 0.5)
-                        size_hint_y: 0.2
+                name: "Aiueo"
+                id: "Aiueo_id"
+                OppBenchBenchPokemonIndividualFloatLayoutContainer:
+                    name: "FloatLayoutCt1"
+                    id: FloatLayoutCt1_id
+                    pos: self.parent.parent.pos
+                    size: self.parent.parent.size
+                    OppBenchBenchPokemonIndividualBoxLayout:
+                        pos: self.parent.parent.pos
+                        size: self.parent.parent.size
+                        name: "box-1"
+                        id: box1_id
                         Image:
-                            source: "hiyoko.jpg"
-        Label:
-            text: "right"
-            size_hint_x: 0.05
-    BoxLayout:
-        id: opp_bp_zone
-        size_hint_y: 1.15
-        orientation: "horizontal"
-        Label:
-            text: "Margin_left"
-            size_hint_x: 0.05
-        Label:
-            text: "deck"
-            size_hint_x: 0.15
-        Label:
-            text: "bp"
-            size_hint_x: 0.4
-        Label:
-            text: "GX_marker"
-            size_hint_x: 0.15
-        Label:
-            text: "prize"
-            size_hint_x: 0.15
-        Label:
-            text: "Margin_right"
-            size_hint_x: 0.05
-    BoxLayout:
-        id: my_bp_zone
-        size_hint_y: 1.2
-        orientation: "horizontal"
-        Label:
-            text: "Margin_left"
-            size_hint_x: 0.05
-        Label:
-            text: "GX_marker"
-            size_hint_x: 0.15
-        Label:
-            text: "prize"
-            size_hint_x: 0.15
-        Label:
-            text: "bp"
-            size_hint_x: 0.4
-        Label:
-            text: "deck"
-            size_hint_x: 0.15
-        Label:
-            text: "Margin_right"
-            size_hint_x: 0.05
-    BoxLayout:
-        id: my_bench_zone
-        size_hint_y: 1
-        orientation: "horizontal"
-        Label:
-            text: "Margin_left"
-            size_hint_x: 0.05
-        Label:
-            text: "bench"
-            size_hint_x: 0.7
-        Label:
+                            source: "xy6-60.png"
+                            name: "piyo128"
+                OppBenchBenchPokemonIndividualBoxLayout:
+                    name: "box-2"
+                    id: "box2_id"
+                    Image:
+                        source: "xy6-63.png"
+                        name: "Hage123"
+                OppBenchBenchPokemonIndividualBoxLayout:
+                    name: "box-3"
+                    id: "box3_id"
+                    Image:
+                        source: "xy6-60.png"
+                        name: "piyo128"
+        OppBenchTrashPile:
             text: "trash_pile"
             size_hint_x: 0.2
-        Label:
+        OppBenchMarginLabelLeft:
             text: "Margin_right"
             size_hint_x: 0.05
-    BoxLayout:
-        id: my_hand_zone
-        size_hint_y: 0.8
+    OppHandArea:
+        id: opp_hand_area
+        size_hint_y: 0.75
         orientation: "horizontal"
-        Label:
+        OppHandMarginLabelLeft:
             text: "Margin_left"
             size_hint_x: 0.1
-        Label:
+        OppHandHand:
             text: "hand"
             size_hint_x: 0.8
-        Label:
+        OppHandMarginLabelRight:
             text: "Margin_right"
             size_hint_x: 0.1
+    MyBPArea:
+        id: my_bp_area
+        size_hint_y: 1.2
+        orientation: "horizontal"
+        MyBPMarginLabelLeft:
+            text: "Margin_left"
+            size_hint_x: 0.05
+        MyBPGXMarker:
+            text: "GX_marker"
+            size_hint_x: 0.15
+        MyBPPrizePile:
+            text: "prize"
+            size_hint_x: 0.15
+        MyBPBattlePokemonBoxLayout:
+            text: "bp"
+            size_hint_x: 0.4
+        MyBPDeck:
+            text: "deck"
+            size_hint_x: 0.15
+        MyBPMarginLabelRIght:
+            text: "Margin_right"
+            size_hint_x: 0.05
+    MyBenchArea:
+        id: my_bench_area
+        size_hint_y: 1
+        orientation: "horizontal"
+        MyBenchMarginLabelLeft:
+            text: "Margin_left"
+            size_hint_x: 0.05
+        MyBenchBenchPokemonBoxLayout:
+            text: "bench"
+            size_hint_x: 0.7
+        MyBenchTrashPile:
+            text: "trash_pile"
+            size_hint_x: 0.2
+        MyBenchMarginLabelLeft:
+            text: "Margin_right"
+            size_hint_x: 0.05
+    MyHandArea:
+        id: my_hand_area
+        size_hint_y: 0.8
+        orientation: "horizontal"
+        MyHandMarginLabelLeft:
+            text: "Margin_left"
+            size_hint_x: 0.1
+        MyHandHand:
+            text: "hand"
+            size_hint_x: 0.8
+        MyHandMarginLabelRight:
+            text: "Margin_right"
+            size_hint_x: 0.1
+<OppBPArea>:
+<OppBPMarginLabelLeft>:
+<OppBPGXMarker>:
+<OppBPPrizePile>:
+<OppBPBattlePokemonBoxLayout>:
+<OppBPDeck>:
+<OppBPMarginLabelRIght>:
+<OppBenchArea>:
+<OppBenchMarginLabelLeft>:
+<OppBenchBenchPokemonBoxLayout>:
+<OppBenchTrashPile>:
+<OppBenchMarginLabelLeft>:
+<OppHandArea>:
+<OppHandMarginLabelLeft>:
+<OppHandHand>:
+<OppHandMarginLabelRight>:
+<MyBPArea>:
+<MyBPMarginLabelLeft>:
+<MyBPGXMarker>:
+<MyBPPrizePile>:
+<MyBPBattlePokemonBoxLayout>:
+<MyBPDeck>:
+<MyBPMarginLabelRIght>:
+<MyBenchArea>:
+<MyBenchMarginLabelLeft>:
+<MyBenchBenchPokemonBoxLayout>:
+<MyBenchTrashPile>:
+<MyBenchMarginLabelLeft>:
+<MyHandArea>:
+<MyHandMarginLabelLeft>:
+<MyHandHand>:
+<MyHandMarginLabelRight>:
+<OppBenchBenchPokemonIndividualFloatLayoutContainer>:
+<OppBenchBenchPokemonIndividualBoxLayout>:
+    drag_rectangle: self.x, self.y, self.width, self.height
+    drag_timeout: 10000000
+    drag_distance: 0
+<DraggableImage>:
+    drag_rectangle: self.x, self.y, self.width, self.height
+    drag_timeout: 10000000
+    drag_distance: 0
