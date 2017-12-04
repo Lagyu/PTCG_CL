@@ -2,36 +2,47 @@
     orientation: "vertical"
     OppBPArea:
         id: opp_bp_area
+        name: "opp_bp_area"
         size_hint_y: 1.1
         orientation: "horizontal"
         OppBPMarginLabelLeft:
             text: "Margin_left"
-            size_hint_x: 0.05
+            size_hint_x: 0.025
         OppBPGXMarker:
             text: "GX_marker"
-            size_hint_x: 0.15
+            size_hint_x: 0.125
         OppBPPrizePile:
             text: "prize"
-            size_hint_x: 0.15
+            size_hint_x: 0.125
         OppBPBattlePokemonBoxLayout:
-            text: "bp"
-            size_hint_x: 0.4
+            id: opp_bp_bp_area
+            name: "opp_bp_bp_area"
+            Label:
+                text: "bp"
+                size_hint_x: 0.35
+        OppBPInPlayCards:
+            id: opp_bp_in_play_area
+            name: "opp_bp_in_play_area"
+            Label:
+                text: "in play"
+                size_hint_x: 0.15
         OppBPDeck:
             text: "deck"
             size_hint_x: 0.15
         OppBPMarginLabelRIght:
             text: "Margin_right"
-            size_hint_x: 0.05
+            size_hint_x: 0.025
     OppBenchArea:
         id: opp_bench_area
+        name: "opp_bench_area"
         size_hint_y: 0.95
         orientation: "horizontal"
         OppBenchMarginLabelLeft:
             text: "Margin_left"
             size_hint_x: 0.05
         OppBenchBenchPokemonFloatLayoutContainer:
-            name: "AAAAAAAAAA"
-            id: "AAAAAAAAAA_id"
+            name: "OppBenchFLContainer"
+            id: OppBenchFLContainer
             pos: self.parent.pos
             size: self.parent.size
             size_hint_x: 0.7
@@ -44,30 +55,23 @@
             OppBenchBenchPokemonInnerBoxLayout:
                 size_hint_x: len(self.children) * 0.15
                 pos_hint: {"center_x": 0.5, "center_y": 0.5}
-                name: "Aiueo"
-                id: "Aiueo_id"
-                OppBenchBenchPokemonIndividualFloatLayoutContainer:
-                    name: "FloatLayoutCt1"
-                    id: FloatLayoutCt1_id
-                    pos: self.parent.parent.pos
-                    size: self.parent.parent.size
-                    OppBenchBenchPokemonIndividualBoxLayout:
-                        pos: self.parent.parent.pos
-                        size: self.parent.parent.size
-                        name: "box-1"
-                        id: box1_id
-                        Image:
-                            source: "xy6-60.png"
-                            name: "piyo128"
+                name: "opp_bench_bench_area"
+                id: opp_bench_bench_area
                 OppBenchBenchPokemonIndividualBoxLayout:
-                    name: "box-2"
-                    id: "box2_id"
+                    name: "POKEMON_P_1_1"
+                    id: POKEMON_P_1_1
+                    Image:
+                        source: "xy6-60.png"
+                        name: "piyo128"
+                OppBenchBenchPokemonIndividualBoxLayout:
+                    name: "POKEMON_P_1_2"
+                    id: POKEMON_P_1_2
                     Image:
                         source: "xy6-63.png"
                         name: "Hage123"
                 OppBenchBenchPokemonIndividualBoxLayout:
                     name: "box-3"
-                    id: "box3_id"
+                    id: box-3
                     Image:
                         source: "xy6-60.png"
                         name: "piyo128"

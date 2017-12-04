@@ -18,7 +18,8 @@ from kivy.graphics import Color, Line, BorderImage
 
 Factory.register('HoverBehavior', HoverBehavior)
 
-ids_on_hover = []
+opp_bp_bp_area_on_hover = ""
+opp_bench_bench_area_on_hover = ""
 
 
 class Board(BoxLayout):
@@ -43,7 +44,11 @@ class OppBPPrizePile(Label):
     pass
 
 
-class OppBPBattlePokemonBoxLayout(Label):
+class OppBPBattlePokemonBoxLayout(HoverBehavior, BoxLayout):
+    pass
+
+
+class OppBPInPlayCards(HoverBehavior, BoxLayout):
     pass
 
 
@@ -86,9 +91,9 @@ class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLa
         self.is_on_hover = False
 
     def on_enter(self):
-        global ids_on_hover
-        ids_on_hover.append(self.name)
-        print(ids_on_hover)
+        global id_on_hover
+        id_on_hover = self.name
+        print(id_on_hover)
         self.is_on_hover = True
         with self.canvas.after:
             BorderImage(source="Transparent_shadow32.png", pos=(self.x - self.width * 0.2, self.y - self.height * 0.2),
@@ -96,10 +101,8 @@ class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLa
 
     def on_leave(self):
         # ids_on_hover.remove(self.name)
-        obj_name = self.name
-        global ids_on_hover
-        ids_on_hover = [value for value in ids_on_hover if value != obj_name]  # remove all from list
-        print(ids_on_hover)
+        global id_on_hover
+        id_on_hover = ""
         self.is_on_hover = False
         #        print(self.name)
         self.canvas.after.clear()
@@ -110,18 +113,20 @@ class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLa
         self.origin_pos_x = self.x
         self.origin_pos_y = self.y
         if self.is_on_hover:
+            '''
             ChildrenList = []
             for i in range(len(self.parent.children)):
                 ChildrenList.append(self.parent.children[i].name)
             print(ChildrenList)
-            print(root_board.ids["box1_id"].name)  # idへのアクセスは、最上位のウィジェットから行う
+            '''
+            print(root_board.ids[self.name].name)  # idへのアクセスは、最上位のウィジェットから行う
     
     def on_touch_up(self, touch):
         super(OppBenchBenchPokemonIndividualBoxLayout, self).on_touch_up(touch)
         self.x = self.origin_pos_x
         self.y = self.origin_pos_y
         if self.is_on_hover:
-            print("piyo")
+            print(root_board.ids[self.name].name)
 
 
 class OppBenchTrashPile(Label):
