@@ -1,3 +1,5 @@
+
+
 Board_Dic = [
     "MY_TURN_0", "WAS_MY_TURN_0",
     "DECK_0", "TRASHPILE_0", "LOSTPILE_0",
@@ -13,8 +15,9 @@ Board_Dic = [
     "POKEMON_P_1", "POKEMON_D_1", "POKEMON_SC_1", "POKEMON_E_1", "POKEMON_A_1",
     "PRIZE_1", "BOARD_SC_1"
 ]
+list100 = [["test"]] * 100
 
-Board_Elem = [[] for i in range(len(Board_Dic))]
+Board_Elem = [[]] * len(Board_Dic)
 Board_Elem[Board_Dic.index("POKEMON_P_0")] = [[], [], [], [], [], [], [], [], []]
 Board_Elem[Board_Dic.index("POKEMON_D_0")] = [[0], [0], [0], [0], [0], [0], [0], [0], [0]]
 Board_Elem[Board_Dic.index("POKEMON_SC_0")] = [{}, {}, {}, {}, {}, {}, {}, {}, {}]

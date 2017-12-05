@@ -15,11 +15,15 @@ from kivy.factory import Factory
 from kivy.base import runTouchApp
 from kivy.uix.widget import Widget
 from kivy.graphics import Color, Line, BorderImage
+from ptcgcl import Board_changer
 
 Factory.register('HoverBehavior', HoverBehavior)
 
-opp_bp_bp_area_on_hover = ""
-opp_bench_bench_area_on_hover = ""
+opp_bp_bp_on_hover = ""
+opp_bench_bench_on_hover = ""
+my_bp_bp_on_hover = ""
+my_bench_bench_on_hover = ""
+holding_now = ""
 
 
 class Board(BoxLayout):
@@ -27,6 +31,7 @@ class Board(BoxLayout):
         super(Board, self).__init__(*args, **kwargs)
         global root_board
         root_board = self
+
 
 class OppBPArea(BoxLayout):
     pass
@@ -56,7 +61,7 @@ class OppBPDeck(Label):
     pass
 
 
-class OppBPMarginLabelRIght(Label):
+class OppBPMarginLabelRight(Label):
     pass
 
 
@@ -73,11 +78,14 @@ class OppBenchBenchPokemonFloatLayoutContainer(FloatLayout):
 
 
 class OppBenchBenchPokemonInnerBoxLayout(BoxLayout):
-    pass
-
-
-class OppBenchBenchPokemonIndividualFloatLayoutContainer(FloatLayout):
-    pass
+    def on_board_change(self):
+        for i in range(1, len(Board_changer.Board_CL()[Board_changer.Board_CL().board_dic["POKEMON_P_1"]])):
+            name_i = "POKEMON_P_1_"+str(i)
+            box = OppBenchBenchPokemonIndividualBoxLayout(id=name_i, name=name_i, card_text_list=Board_changer.Board_CL()[Board_changer.Board_CL().board_dic["POKEMON_P_0"]][i])
+            self.add_widget(box)
+            image_name_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic["POKEMON_P_1"], i, -1, "id"] + ".png"
+            image_elem_i = Image(source=image_name_i,name=image_name_i)
+            self.box.add_widget(image_elem_i)
 
 
 class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLayout):
@@ -91,9 +99,9 @@ class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLa
         self.is_on_hover = False
 
     def on_enter(self):
-        global id_on_hover
-        id_on_hover = self.name
-        print(id_on_hover)
+        global opp_bench_bench_on_hover
+        opp_bench_bench_on_hover = self.name
+        print(opp_bench_bench_on_hover)
         self.is_on_hover = True
         with self.canvas.after:
             BorderImage(source="Transparent_shadow32.png", pos=(self.x - self.width * 0.2, self.y - self.height * 0.2),
@@ -101,8 +109,8 @@ class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLa
 
     def on_leave(self):
         # ids_on_hover.remove(self.name)
-        global id_on_hover
-        id_on_hover = ""
+        global opp_bench_bench_on_hover
+        opp_bench_bench_on_hover = ""
         self.is_on_hover = False
         #        print(self.name)
         self.canvas.after.clear()
@@ -177,7 +185,7 @@ class MyBPDeck(Label):
     pass
 
 
-class MyBPMarginLabelRIght(Label):
+class MyBPMarginLabelRight(Label):
     pass
 
 

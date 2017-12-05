@@ -1,63 +1,135 @@
-from kivy.app import App
-from kivy.uix.gridlayout import GridLayout
-from kivy.properties import ObjectProperty
-from kivy.properties import StringProperty
-from kivy.event import EventDispatcher
-from kivy.lang import Builder
-
-Builder.load_string("""
-<RootWidget>:
-    cols: 2
-    Label:
-        text: "Attribute a:"
-    Label:
-        text: root.data_model.a
-    Label:
-        text: "Attribute b:"
-    Label:
-        text: root.data_model.b
-    Label:
-        text: "Attribute c:"
-    Label:
-        text: root.data_model.c
-    Button:
-        text: "Make data_model.a longer"
-        on_press: root.button_press()
-    Button:
-        text: "Make data_model.b shorter"
-        on_press: root.button_press2()
-""")
 
 
-class DataModel(EventDispatcher):
-    a = StringProperty('')
-    b = StringProperty('')
-    c = StringProperty('')
+list100 = [[["test" for i in range(2)] for j in range(3)]for k in range(10)]
 
-    def __init__(self, *args, **kwargs):
-        super(DataModel, self).__init__(*args, **kwargs)
-        self.a = 'This is a'
-        self.b ='This is b'
-        self.bind(a=self.set_c)
-        self.bind(b=self.set_c)
 
-    def set_c(self, instance, value):
-        self.c = self.a + ' and ' + self.b
+class SomeList(object):
+    def __init__(self):
+        global list100
+        self._SomeList = list100
 
-class RootWidget(GridLayout):
-    data_model = ObjectProperty(DataModel())
+    @property
+    def somelist(self):
+        print("property run.")
+        return self._SomeList
 
-    def button_press(self, *args):
-        self.data_model.a = 'This is a and it is really long now'
-        print(self.data_model.c)
+    @somelist.setter
+    def somelist(self, value):
+        global list100
+        print("setter run.")
+        self._SomeList = value
+        list100 = self._SomeList
 
-    def button_press2(self, *args):
-        self.data_model.b = 'B'
-        print(self.data_model.c)
+    def __getitem__(self, key):
+        print("getitem run.")
+        if isinstance(key, (int, str)):
+            return self._SomeList[key]
+        if isinstance(key, tuple):
+            if len(key) == 1:
+                return self._SomeList[key[0]]
+            if len(key) == 2:
+                x, y = key
+                print(key)
+                return self._SomeList[x][y]
+            if len(key) == 3:
+                print(key)
+                x, y, z = key
+                return self._SomeList[x][y][z]
+            if len(key) == 4:
+                print(key)
+                x, y, z, xx = key
+                return self._SomeList[x][y][z][xx]
+            if len(key) == 5:
+                print(key)
+                x, y, z, xx, xy = key
+                return self._SomeList[x][y][z][xx][xy]
+            if len(key) == 6:
+                print(key)
+                x, y, z, xx, xy, xz = key
+                return self._SomeList[x][y][z][xx][xy][xz]
+            if len(key) == 7:
+                print(key)
+                x, y, z, xx, xy, xz, yx = key
+                return self._SomeList[x][y][z][xx][xy][xz][yx]
+            if len(key) == 8:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy = key
+                return self._SomeList[x][y][z][xx][xy][xz][yx][yy]
+            if len(key) == 9:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy, yz = key
+                return self._SomeList[x][y][z][xx][xy][xz][yx][yy][yz]
+            if len(key) == 10:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy, yz, zx = key
+                return self._SomeList[x][y][z][xx][xy][xz][yx][yy][yz][zx]
+            if len(key) == 11:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy, yz, zx, zy = key
+                return self._SomeList[x][y][z][xx][xy][xz][yx][yy][yz][zx][zy]
+            if len(key) == 12:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy, yz, zx, zy, zz = key
+                return self._SomeList[x][y][z][xx][xy][xz][yx][yy][yz][zx][zy][zz]
+        else:
+            print("Error: key must be tuple or int, but is", type(key))
 
-class TestApp(App):
-    def build(self):
-        return RootWidget()
+    def __setitem__(self, key, value):
+        print("setitem run.")
+        if isinstance(key, (int, str)):
+            self._SomeList[key] = value
+        if isinstance(key, tuple):
+            if len(key) == 1:
+                self._SomeList[key[0]] = value
+            if len(key) == 2:
+                x, y = key
+                print(key)
+                self._SomeList[x][y] = value
+            if len(key) == 3:
+                print(key)
+                x, y, z = key
+                self._SomeList[x][y][z] = value
+            if len(key) == 4:
+                print(key)
+                x, y, z, xx = key
+                self._SomeList[x][y][z][xx] = value
+            if len(key) == 5:
+                print(key)
+                x, y, z, xx, xy = key
+                self._SomeList[x][y][z][xx][xy] = value
+            if len(key) == 6:
+                print(key)
+                x, y, z, xx, xy, xz = key
+                self._SomeList[x][y][z][xx][xy][xz] = value
+            if len(key) == 7:
+                print(key)
+                x, y, z, xx, xy, xz, yx = key
+                self._SomeList[x][y][z][xx][xy][xz][yx] = value
+            if len(key) == 8:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy = key
+                self._SomeList[x][y][z][xx][xy][xz][yx][yy] = value
+            if len(key) == 9:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy, yz = key
+                self._SomeList[x][y][z][xx][xy][xz][yx][yy][yz] = value
+            if len(key) == 10:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy, yz, zx = key
+                self._SomeList[x][y][z][xx][xy][xz][yx][yy][yz][zx] = value
+            if len(key) == 11:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy, yz, zx, zy = key
+                self._SomeList[x][y][z][xx][xy][xz][yx][yy][yz][zx][zy] = value
+            if len(key) == 12:
+                print(key)
+                x, y, z, xx, xy, xz, yx, yy, yz, zx, zy, zz = key
+                self._SomeList[x][y][z][xx][xy][xz][yx][yy][yz][zx][zy][zz] = value
+        else:
+            print("Error: key must be tuple or int, but is", type(key))
+        global list100
+        list100 = self._SomeList
 
-app = TestApp()
-app.run()
+print(list100)
+SomeList()[8,1,1] = "Changed"  # setter doesn't run.
+print(list100)
