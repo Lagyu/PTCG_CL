@@ -78,14 +78,19 @@ class OppBenchBenchPokemonFloatLayoutContainer(FloatLayout):
 
 
 class OppBenchBenchPokemonInnerBoxLayout(BoxLayout):
-    def on_board_change(self):
-        for i in range(1, len(Board_changer.Board_CL()[Board_changer.Board_CL().board_dic["POKEMON_P_1"]])):
+    def on_touch_up(self, touch):
+        super(OppBenchBenchPokemonInnerBoxLayout, self).on_touch_down(touch)
+        self.clear_widgets()
+        Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_P_1"), 0] = [{'artist': 'Mizue', 'attacks': [{'convertedEnergyCost': 1, 'cost': ['Colorless'], 'damage': '', 'name': 'Sharp Blade Quill', 'text': "This attack does 20 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"}, {'convertedEnergyCost': 3, 'cost': ['Grass', 'Colorless', 'Colorless'], 'damage': '50+', 'name': 'Leaf Blade', 'text': 'Flip a coin. If heads, this attack does 20 more damage.'}], 'evolvesFrom': 'Rowlet', 'hp': '80', 'id': 'sm1-10', 'imageUrl': 'https://images.pokemontcg.io/sm1/10.png', 'imageUrlHiRes': 'https://images.pokemontcg.io/sm1/10_hires.png', 'name': 'Dartrix', 'nationalPokedexNumber': 723, 'number': '10', 'rarity': 'Uncommon', 'retreatCost': ['Colorless'], 'series': 'Sun & Moon', 'set': 'Sun & Moon', 'setCode': 'sm1', 'subtype': 'Stage 1', 'supertype': 'Pokémon', 'types': ['Grass'], 'weaknesses': [{'type': 'Fire', 'value': '×2'}]}]
+        Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_P_1"), 1] = [{'artist': 'Mizue', 'attacks': [{'convertedEnergyCost': 1, 'cost': ['Colorless'], 'damage': '', 'name': 'Sharp Blade Quill', 'text': "This attack does 20 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"}, {'convertedEnergyCost': 3, 'cost': ['Grass', 'Colorless', 'Colorless'], 'damage': '50+', 'name': 'Leaf Blade', 'text': 'Flip a coin. If heads, this attack does 20 more damage.'}], 'evolvesFrom': 'Rowlet', 'hp': '80', 'id': 'sm1-10', 'imageUrl': 'https://images.pokemontcg.io/sm1/10.png', 'imageUrlHiRes': 'https://images.pokemontcg.io/sm1/10_hires.png', 'name': 'Dartrix', 'nationalPokedexNumber': 723, 'number': '10', 'rarity': 'Uncommon', 'retreatCost': ['Colorless'], 'series': 'Sun & Moon', 'set': 'Sun & Moon', 'setCode': 'sm1', 'subtype': 'Stage 1', 'supertype': 'Pokémon', 'types': ['Grass'], 'weaknesses': [{'type': 'Fire', 'value': '×2'}]}]
+        for i in range(1, len(Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_P_1")])):
+            if Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_P_1"), i] == []:
+                break
             name_i = "POKEMON_P_1_"+str(i)
-            box = OppBenchBenchPokemonIndividualBoxLayout(id=name_i, name=name_i, card_text_list=Board_changer.Board_CL()[Board_changer.Board_CL().board_dic["POKEMON_P_0"]][i])
+            box = OppBenchBenchPokemonIndividualBoxLayout(id=name_i, name=name_i, card_text_list=Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_P_1"), i])
             self.add_widget(box)
-            image_name_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic["POKEMON_P_1"], i, -1, "id"] + ".png"
-            image_elem_i = Image(source=image_name_i,name=image_name_i)
-            self.box.add_widget(image_elem_i)
+            img_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_P_1"), i, -1, "id"] + ".png"
+            self.children[i-1].add_widget(Image(source=img_i, name=img_i, id=img_i))
 
 
 class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLayout):
@@ -97,7 +102,6 @@ class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLa
     def __init__(self, **args):
         super(OppBenchBenchPokemonIndividualBoxLayout, self).__init__()
         self.is_on_hover = False
-
     def on_enter(self):
         global opp_bench_bench_on_hover
         opp_bench_bench_on_hover = self.name
@@ -127,14 +131,18 @@ class OppBenchBenchPokemonIndividualBoxLayout(DragBehavior, HoverBehavior, BoxLa
                 ChildrenList.append(self.parent.children[i].name)
             print(ChildrenList)
             '''
-            print(root_board.ids[self.name].name)  # idへのアクセスは、最上位のウィジェットから行う
-    
+            # print(root_board.ids[self.name].name)  # idへのアクセスは、最上位のウィジェットから行う
+
     def on_touch_up(self, touch):
         super(OppBenchBenchPokemonIndividualBoxLayout, self).on_touch_up(touch)
-        self.x = self.origin_pos_x
-        self.y = self.origin_pos_y
-        if self.is_on_hover:
-            print(root_board.ids[self.name].name)
+        if self.origin_pos_x == 0 and self.origin_pos_y == 0:
+            pass
+        else:
+            self.x = self.origin_pos_x
+            self.y = self.origin_pos_y
+            if self.is_on_hover:
+                pass
+                # print(root_board.ids[self.name].name)
 
 
 class OppBenchTrashPile(Label):
@@ -217,7 +225,25 @@ class MyHandMarginLabelLeft(Label):
     pass
 
 
-class MyHandHand(Label):
+class MyHandFloatLayoutContainer(FloatLayout):
+    pass
+
+
+class MyHandHand(BoxLayout):
+    def on_touch_up(self, touch):
+        super(MyHandHand, self).on_touch_down(touch)
+        # Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("HAND_0")] = [{'artist': 'Mizue', 'attacks': [{'convertedEnergyCost': 1, 'cost': ['Colorless'], 'damage': '', 'name': 'Sharp Blade Quill', 'text': "This attack does 20 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"}, {'convertedEnergyCost': 3, 'cost': ['Grass', 'Colorless', 'Colorless'], 'damage': '50+', 'name': 'Leaf Blade', 'text': 'Flip a coin. If heads, this attack does 20 more damage.'}], 'evolvesFrom': 'Rowlet', 'hp': '80', 'id': 'sm1-10', 'imageUrl': 'https://images.pokemontcg.io/sm1/10.png', 'imageUrlHiRes': 'https://images.pokemontcg.io/sm1/10_hires.png', 'name': 'Dartrix', 'nationalPokedexNumber': 723, 'number': '10', 'rarity': 'Uncommon', 'retreatCost': ['Colorless'], 'series': 'Sun & Moon', 'set': 'Sun & Moon', 'setCode': 'sm1', 'subtype': 'Stage 1', 'supertype': 'Pokémon', 'types': ['Grass'], 'weaknesses': [{'type': 'Fire', 'value': '×2'}]}, {'artist': 'Mizue', 'attacks': [{'convertedEnergyCost': 1, 'cost': ['Colorless'], 'damage': '', 'name': 'Sharp Blade Quill', 'text': "This attack does 20 damage to 1 of your opponent's Pokémon. (Don't apply Weakness and Resistance for Benched Pokémon.)"}, {'convertedEnergyCost': 3, 'cost': ['Grass', 'Colorless', 'Colorless'], 'damage': '50+', 'name': 'Leaf Blade', 'text': 'Flip a coin. If heads, this attack does 20 more damage.'}], 'evolvesFrom': 'Rowlet', 'hp': '80', 'id': 'sm1-10', 'imageUrl': 'https://images.pokemontcg.io/sm1/10.png', 'imageUrlHiRes': 'https://images.pokemontcg.io/sm1/10_hires.png', 'name': 'Dartrix', 'nationalPokedexNumber': 723, 'number': '10', 'rarity': 'Uncommon', 'retreatCost': ['Colorless'], 'series': 'Sun & Moon', 'set': 'Sun & Moon', 'setCode': 'sm1', 'subtype': 'Stage 1', 'supertype': 'Pokémon', 'types': ['Grass'], 'weaknesses': [{'type': 'Fire', 'value': '×2'}]}]
+        self.clear_widgets()
+        for i in range(len(Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("HAND_0")])):
+            if not Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("HAND_0"), i]:
+                break
+            name_i = "HAND_0_"+str(i)
+            img_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("HAND_0"), i, "id"] + ".png"
+            hand_i = MyHandHandIndividualCard(id=name_i, name=name_i, source=img_i)
+            self.add_widget(hand_i)
+
+
+class MyHandHandIndividualCard(DragBehavior, HoverBehavior, Image):
     pass
 
 

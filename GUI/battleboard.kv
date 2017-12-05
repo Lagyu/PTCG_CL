@@ -139,9 +139,23 @@
         MyHandMarginLabelLeft:
             text: "Margin_left"
             size_hint_x: 0.1
-        MyHandHand:
-            text: "hand"
+        MyHandFloatLayoutContainer:
+            name: "MyHandFloatLayoutContainer"
+            id: MyHandFloatLayoutContainer
+            pos: self.parent.pos
+            size: self.parent.size
             size_hint_x: 0.8
+            canvas.before:
+                Color:
+                    rgba: 0.1, 0, 0, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            MyHandHand:
+                size_hint_x: len(self.children) * 0.15
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                name: "MyHandHand"
+                id: MyHandHand
         MyHandMarginLabelRight:
             text: "Margin_right"
             size_hint_x: 0.1
