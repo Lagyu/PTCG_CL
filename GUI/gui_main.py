@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.modalview import ModalView
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.behaviors import DragBehavior
@@ -16,6 +17,7 @@ from kivy.base import runTouchApp
 from kivy.uix.widget import Widget
 from kivy.graphics import Color, Line, BorderImage
 from ptcgcl import Board_changer
+from kivy.uix.behaviors import ButtonBehavior
 
 Factory.register('HoverBehavior', HoverBehavior)
 
@@ -26,11 +28,51 @@ my_bench_bench_on_hover = ""
 holding_now = ""
 
 
+class MainMenu(ModalView):
+    pass
+
+
+class MainMenuContents(BoxLayout):
+    pass
+
+
 class Board(BoxLayout):
     def __init__(self,*args,**kwargs):
         super(Board, self).__init__(*args, **kwargs)
         global root_board
         root_board = self
+
+
+class ChooseModal(ModalView):
+    pass
+
+
+class ModalInnerBox(BoxLayout):
+    pass
+
+
+class CardsChooseFrom(BoxLayout):
+    def __init__(self, **kwargs):
+        super(CardsChooseFrom, self).__init__()
+
+    def load(self, key: str, filter=""):
+        for i in range(len(Board_changer.Board_CL().board_dic.index(key))):
+            img_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index(key), i, "id"] + ".png"
+            self.add_widget(ChooseModalItemCards(source=img_i, id=img_i, name=str(i)))
+
+
+class ChooseModalItemCards(ButtonBehavior, Image):
+    def on_press(self):
+        super(ChooseModalItemCards, self).on_press()
+        # ここに自身のon_pressを取り除き、自身の内容をChooseModalItemCardsChosenに入れるって書く
+        pass
+
+
+class ChooseModalItemCardsChosen(ButtonBehavior, Image):
+    def on_press(self):
+        super(ChooseModalItemCards, self).on_press()
+        # ここに自身を取り除き、上のやつにon_pressを戻すって書く
+        pass
 
 
 class OppBPArea(BoxLayout):
@@ -238,10 +280,15 @@ class MyHandHand(BoxLayout):
             if not Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("HAND_0"), i]:
                 break
             name_i = "HAND_0_"+str(i)
-            img_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("HAND_0"), i, "id"] + ".png"
-            hand_i = MyHandHandIndividualCard(id=name_i, name=name_i, source=img_i)
-            self.add_widget(hand_i)
-
+            try:
+                img_i = "images\\"+Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("HAND_0"), i, "id"] + ".png"
+                hand_i = MyHandHandIndividualCard(id=name_i, name=name_i, source=img_i)
+                self.add_widget(hand_i)
+            except FileNotFoundError:
+                print("Error detected. look into the current directory;")
+                img_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("HAND_0"), i, "id"] + ".png"
+                hand_i = MyHandHandIndividualCard(id=name_i, name=name_i, source=img_i)
+                self.add_widget(hand_i)
 
 class MyHandHandIndividualCard(DragBehavior, HoverBehavior, Image):
     pass

@@ -1,5 +1,5 @@
 import ptcgcl
-
+from GUI import gui_main
 import ptcgcl.Build_Deck
 '''
 
@@ -23,6 +23,7 @@ test_import()
 '''
 
 def test_battle_starting():
+    gui_main.BattleboardApp().run()
     ptcgcl.Build_Deck.load_from_file("test.csv")
     ptcgcl.Perform.shuffle_deck()
     for i in range(7):
