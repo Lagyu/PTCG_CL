@@ -1,7 +1,7 @@
 from . import Board_changer
 from . import Perform
 from . import Check
-
+from GUI import gui_main
 
 
 def torment():
@@ -59,14 +59,16 @@ def asleep(coin_int=1):
     return True
 
 
-def paralized(coin=True):
+def paralyzed(coin=True):
     if coin:
         if Perform.flip_coin():
             Board_changer.Board_CL().board_elem[Board_changer.Board_CL().board_dic.index("POKEMON_SC_1")][0]["PARALYZED"] = 1
             return True
         else:
             return False
-
+    else:
+        Board_changer.Board_CL().board_elem[Board_changer.Board_CL().board_dic.index("POKEMON_SC_1")][0]["PARALYZED"] = 1
+        return True
 
 
 def heal_damage(bench_id: int, heal_amount: int):
@@ -167,6 +169,36 @@ def mine():
         return True
     else:
         return True
+
+
+def opp_cannot_retreat_next_turn():
+    Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_SC_1"), 0, "CANNOT_RETREAT"] = 1
+    return True
+
+
+def discard_my_energy(num: int, type: str, subtype="any", coin=False):
+    if coin:
+        if Perform.flip_coin():
+            list_to_discard = gui_main.CardsChooseFrom().load("POKEMON_E_0", num, subtype, "Energy", type)
+            for i in range(len(list_to_discard)):
+                p0_attatched_list = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0]
+                Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0] = p0_attatched_list.remove(list_to_discard[i])
+            return num
+        else:
+            return False
+    else:
+        list_to_discard = gui_main.CardsChooseFrom().load("POKEMON_E_0", num, subtype, "Energy", type)
+        for i in range(len(list_to_discard)):
+            p0_attatched_list = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0]
+            Board_changer.Board_CL()[
+                Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0] = p0_attatched_list.remove(
+                list_to_discard[i])
+        return num
+
+
+def attach_energy_from_deck(num: int, type="any", subtype= "any", allow_bench= False, allow_myself= False, allow_separated= False):
+    energy_to_attatch_list = []
+    energy_to_attatch_list = gui_main.CardsChooseFrom().load("POKEMON_E_0", num, "Energy", subtype, type)
 
 
 
