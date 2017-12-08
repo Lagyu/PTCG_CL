@@ -55,7 +55,20 @@ class CardsChooseFrom(BoxLayout):
     def __init__(self, **kwargs):
         super(CardsChooseFrom, self).__init__()
 
-    def load(self, from_key: str, how_many: int, filter_supertype="any", filter_subtype="any", type_filter="any"):
+    def load_all(self, from_key: str, number_take: int, filter_supertype="any", filter_subtype="any"):
+        # 未実装、returnはlistで
+        for i in range(len(Board_changer.Board_CL().board_dic.index(from_key))):
+            img_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index(from_key), i, "id"] + ".png"
+            self.add_widget(ChooseModalItemCards(source=img_i, id=img_i, name=str(i)))
+
+    def load_pokemon(self, from_key: str, number_take: int, filter_supertype="any", filter_subtype="any", filter_type="any", name_list=[], filter_hp_min=0, filter_hp_max=0, filter_retreat_cost_min=0, filter_retreat_cost_max=1000):
+        # 未実装
+        for i in range(len(Board_changer.Board_CL().board_dic.index(from_key))):
+            img_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index(from_key), i, "id"] + ".png"
+            self.add_widget(ChooseModalItemCards(source=img_i, id=img_i, name=str(i)))
+
+    def load_energy(self, from_key: str, number_take: int, filter_supertype="any", filter_subtype="any", filter_type=[], name_list=[]):
+        # 未実装
         for i in range(len(Board_changer.Board_CL().board_dic.index(from_key))):
             img_i = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index(from_key), i, "id"] + ".png"
             self.add_widget(ChooseModalItemCards(source=img_i, id=img_i, name=str(i)))

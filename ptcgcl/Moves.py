@@ -179,26 +179,38 @@ def opp_cannot_retreat_next_turn():
 def discard_my_energy(num: int, type: str, subtype="any", coin=False):
     if coin:
         if Perform.flip_coin():
-            list_to_discard = gui_main.CardsChooseFrom().load("POKEMON_E_0", num, subtype, "Energy", type)
+            list_to_discard = gui_main.CardsChooseFrom().load_energy("POKEMON_E_0", num, "Energy", subtype, type, [])
             for i in range(len(list_to_discard)):
-                p0_attatched_list = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0]
-                Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0] = p0_attatched_list.remove(list_to_discard[i])
+                p0_attached_list = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0]
+                Board_changer.Board_CL()[
+                    Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0] = p0_attached_list.remove(
+                    list_to_discard[i])
             return num
         else:
             return False
     else:
-        list_to_discard = gui_main.CardsChooseFrom().load("POKEMON_E_0", num, subtype, "Energy", type)
+        list_to_discard = gui_main.CardsChooseFrom().load_energy("POKEMON_E_0", num, "Energy", subtype, type, [])
         for i in range(len(list_to_discard)):
-            p0_attatched_list = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0]
+            p0_attached_list = Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0]
             Board_changer.Board_CL()[
-                Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0] = p0_attatched_list.remove(
+                Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), 0] = p0_attached_list.remove(
                 list_to_discard[i])
         return num
 
 
-def attach_energy_from_deck(num: int, type="any", subtype= "any", allow_bench= False, allow_myself= False, allow_separated= False):
-    energy_to_attatch_list = []
-    energy_to_attatch_list = gui_main.CardsChooseFrom().load("POKEMON_E_0", num, "Energy", subtype, type)
+def attach_energy_from_deck(num: int, type="any", subtype="any", allow_bench=False, allow_myself=False, allow_separated=False):
+    energy_to_attach_list = []
+    energy_to_attach_list = gui_main.CardsChooseFrom().load_energy("POKEMON_E_0", num, "Energy", subtype, type, [])
+    where_to_attach = []
+    # ↑ポケモンを選ばせる関数を作って、そこで選んだ、len(energy_to_attach_list)個の場所番号(0-8)の要素があるリストを代入する。
+    # ベンチやバトルポケモンを選択できるか制御できるようにする。
+    for i in range(len(where_to_attach)):
+        Board_changer.Board_CL()[Board_changer.Board_CL().board_dic.index("POKEMON_E_0"), where_to_attach[i]].append(energy_to_attach_list[i])
+    return True
+
+
+def
+
 
 
 
