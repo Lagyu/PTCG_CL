@@ -1,11 +1,11 @@
 # PTCG_CL
 
-This is Pokemon TCG simulator with python. (under development)
+This is Pokemon TCG simulator with python. (under development)<br>
 This project is mainly for studying.
 
 ----
-edit Dec.16 2017: 
-I won't continue to develop this project any longer, because I became interested in developping (rewriting) web-based PTCG simulator with Node.js.<br>
+edit on Dec. 16, 2017:<br>
+I won't continue to develop this project any longer, because I became interested in developping (rewriting) web-based Pokemon TCG simulator with Node.js.<br>
 This project has almost all of functions to play game with vanilla cards, but little implimentation of indivisual moves and abilities.<br>
 Those who are interested in, feel free to contact me. (twitter: @lagyu_wspk)
 
