@@ -1,5 +1,5 @@
 from . import Board_Elements
-
+# This module is to implement Observer design for GUI relation, but need to rewrite the code on many modues to use this module.
 
 class Board_CL(object):
     def __init__(self):
@@ -38,6 +38,7 @@ class Board_CL(object):
         print("dict_deleter run.")
         del self._BOARD_DIC
 
+    # I don't know how to imprement the following wired code refined...
     def __getitem__(self, key):
         print("getitem run.")
         if isinstance(key, (int, str)):
