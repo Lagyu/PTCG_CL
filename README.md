@@ -1,20 +1,32 @@
 # PTCG_CL
-開発に必要なもの
 
-・最低限必要なもの
-- Python 3.6(Anaconda https://www.anaconda.com/download/ の利用を推奨)
-- Git管理ツール(https://desktop.github.com/ など)
+This is Pokemon TCG simulator with python. (under development)
+This project is mainly for studying.
 
-・推奨するもの
-- PyCharm community edition(https://www.jetbrains.com/pycharm/download/)
+----
+edit Dec.16 2017: 
+I won't continue to develop this project any longer, because I became interested in developping (rewriting) web-based PTCG simulator with Node.js.<br>
+This project has almost all of functions to play game with vanilla cards, but no implimentation of moves and abilities.<br>
+Those who are interested in, feel free to contact me. (twitter: @lagyu_wspk)
 
-何も考えずに実装してるので、何か思ったことがあったらどんどんIssuesに書き込んでください。
+----
 
-# 開発に協力するとき
-まず、http://tracpath.com/bootcamp/learning_git_firststep.html を読んでバージョン管理について理解してください。
+The final purpose of this project is the following;
+1. develop an command-line based Pokemon TCG simulator to connect some AI (something like AlphaGo Zero) and find new srategy.<br>
+2. develop an cross-platform GUI based online Pokemon TCG simulator and publish it to build an statistic site. (something like HSReplay: https://hsreplay.net)
 
-初めて来た人は、Github DesktopからgitをPullして自分のPCに共有リポジトリ(クラウド上にある元データ)の内容をダウンロードしてください。
+# requirement
+- Python 3.6
 
-その後、PyCharmでgithubのディレクトリを開きます。
+- for Command line;
 
-PyCharmで何かを編集して、共有リポジトリに反映したいときは、Commitした後でPushしてください。
+requests
+
+- for GUI;
+
+kivy docutils pygments pypiwin32 kivy.deps.sdl2 kivy.deps.glew kivy.deps.gstreamer kivy.deps.angle<br>
+
+----
+
+this program is released under GPLv3 (https://www.gnu.org/licenses/gpl.txt).
+
