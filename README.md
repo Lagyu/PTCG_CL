@@ -1,7 +1,8 @@
 # PTCG_CL
 
 This is Pokemon TCG simulator with python. (under development)<br>
-This project is mainly for studying.
+This project is mainly for studying.<br>
+Currently, the program is not useful at all.
 
 ----
 edit on Dec. 16, 2017:<br>
