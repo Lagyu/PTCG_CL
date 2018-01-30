@@ -1,6 +1,6 @@
 # PTCG_CL
 
-This is Pokemon TCG simulator with python. (under development. This once was for Command-line based but I'm now seeking for GUI-based interface.)<br>
+This is Pokemon TCG simulator with python. (under development. This once was for Command-line based, but I'm now seeking for GUI-based interface.)<br>
 This project is mainly for studying.<br>
 Currently, the program is not useful at all.
 
