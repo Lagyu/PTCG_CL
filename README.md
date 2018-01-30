@@ -5,7 +5,7 @@ This project is mainly for studying.
 
 ----
 edit on Dec. 16, 2017:<br>
-I won't continue to develop this project any longer, because I became interested in developping (rewriting) web-based Pokemon TCG simulator with Node.js.<br>
+I won't continue to develop this project any longer, because most of code should be rewrited with "object-oriented" style to continue developing.
 This project has almost all of functions to play game with vanilla cards, but little implimentation of indivisual moves and abilities.<br>
 Those who are interested in, feel free to contact me. (twitter: @lagyu_wspk)
 
@@ -14,6 +14,8 @@ Those who are interested in, feel free to contact me. (twitter: @lagyu_wspk)
 The final purpose of this project is the following;
 1. Develop an command-line based Pokemon TCG simulator to connect some AI (something like AlphaGo Zero) and find new srategies.<br>
 2. Develop an cross-platform GUI based online Pokemon TCG simulator and publish it to build an statistic site. (something like HSReplay: https://hsreplay.net)
+
+Also, this project has learning aspect for me. 
 
 # requirement
 - Python 3.6
